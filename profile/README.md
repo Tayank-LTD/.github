@@ -219,4 +219,3 @@ We're grateful to our sponsors who help make Tayank possible:
 [⭐ Star us on GitHub](https://github.com/tayank-inc) • [📖 Read the docs](https://docs.tayank.com)
 
 </div>
-```
