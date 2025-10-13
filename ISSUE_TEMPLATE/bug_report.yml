@@ -1,0 +1,157 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["type: bug", "status: needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below.
+        
+        **Before submitting:**
+        - Search existing issues to avoid duplicates
+        - Make sure you're using the latest version
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+      placeholder: "When I try to send a message in #general, it doesn't appear..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this bug?
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: "The message should appear in the channel..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "The message doesn't appear and I see an error..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of Tayank is affected?
+      options:
+        - Web App
+        - Mobile App (iOS)
+        - Mobile App (Android)
+        - Desktop App
+        - API
+        - Voice/Video
+        - Authentication
+        - Messaging
+        - File Upload
+        - Search
+        - Notifications
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - Critical (App crashes, data loss, security issue)
+        - High (Major feature broken)
+        - Medium (Feature partially broken)
+        - Low (Minor inconvenience)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of Tayank are you using?
+      placeholder: "v1.2.3 or commit hash"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: What platform are you using?
+      multiple: true
+      options:
+        - Web (Chrome)
+        - Web (Firefox)
+        - Web (Safari)
+        - Web (Edge)
+        - iOS
+        - Android
+        - Windows
+        - macOS
+        - Linux
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Any relevant details about your environment
+      placeholder: |
+        - OS: Windows 11
+        - Browser: Chrome 120.0
+        - Screen Resolution: 1920x1080
+        - Network: WiFi
+      render: markdown
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs/Screenshots
+      description: |
+        Please paste any relevant logs or add screenshots.
+        **Tip:** You can attach images by dragging and dropping.
+      placeholder: |
+        Paste logs here or attach screenshots
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that might be relevant
+      placeholder: "This only happens when..."
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have provided all the information requested above
+          required: true
+        - label: This issue is reproducible
+          required: false

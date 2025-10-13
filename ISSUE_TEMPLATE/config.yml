@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://docs.tayank.com
+    about: Check our documentation for guides and API reference
+  
+  - name: 🔐 Security Vulnerability
+    url: mailto:security@tayank.com
+    about: Report security vulnerabilities privately via email
+  
+  - name: 💡 Feature Discussion
+    url: https://github.com/orgs/tayank-inc/discussions
+    about: Discuss new ideas and features with the community
+  
+  - name: 📧 General Support
+    url: mailto:support@tayank.com
+    about: Contact support for account or usage questions

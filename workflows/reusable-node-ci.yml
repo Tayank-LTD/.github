@@ -1,0 +1,373 @@
+name: Reusable Node.js CI
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to use'
+        required: false
+        type: string
+        default: '18'
+      package-manager:
+        description: 'Package manager (npm, yarn, pnpm)'
+        required: false
+        type: string
+        default: 'npm'
+      coverage-threshold:
+        description: 'Minimum code coverage percentage'
+        required: false
+        type: number
+        default: 80
+      working-directory:
+        description: 'Working directory for the service'
+        required: false
+        type: string
+        default: '.'
+      run-e2e-tests:
+        description: 'Run E2E tests'
+        required: false
+        type: boolean
+        default: false
+      build-command:
+        description: 'Build command'
+        required: false
+        type: string
+        default: 'build'
+
+jobs:
+  # Job 1: Code Quality
+  lint:
+    name: 🔍 Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ "${{ inputs.package-manager }}" = "npm" ]; then
+            npm ci
+          elif [ "${{ inputs.package-manager }}" = "yarn" ]; then
+            yarn install --frozen-lockfile
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm install --frozen-lockfile
+          fi
+
+      - name: Run ESLint
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} run lint
+
+      - name: Check formatting (Prettier)
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} run format:check
+        continue-on-error: true
+
+      - name: TypeScript type check
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} run type-check
+        continue-on-error: true
+
+  # Job 2: Security Scanning
+  security:
+    name: 🔐 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Run npm audit
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ "${{ inputs.package-manager }}" = "npm" ]; then
+            npm audit --production --audit-level=moderate
+          elif [ "${{ inputs.package-manager }}" = "yarn" ]; then
+            yarn audit --level moderate
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm audit --prod --audit-level moderate
+          fi
+        continue-on-error: true
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  # Job 3: Unit Tests
+  test:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ "${{ inputs.package-manager }}" = "npm" ]; then
+            npm ci
+          elif [ "${{ inputs.package-manager }}" = "yarn" ]; then
+            yarn install --frozen-lockfile
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm install --frozen-lockfile
+          fi
+
+      - name: Run tests
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} test -- --coverage
+
+      - name: Check coverage
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          coverage=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          echo "Coverage: ${coverage}%"
+          
+          if (( $(echo "$coverage < ${{ inputs.coverage-threshold }}" | bc -l) )); then
+            echo "❌ Coverage ${coverage}% is below threshold ${{ inputs.coverage-threshold }}%"
+            exit 1
+          else
+            echo "✅ Coverage ${coverage}% meets threshold ${{ inputs.coverage-threshold }}%"
+          fi
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ${{ inputs.working-directory }}/coverage/coverage-final.json
+          flags: unittests
+          name: codecov-umbrella
+
+  # Job 4: E2E Tests (Optional)
+  e2e-test:
+    name: 🎭 E2E Tests
+    if: inputs.run-e2e-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ "${{ inputs.package-manager }}" = "npm" ]; then
+            npm ci
+          elif [ "${{ inputs.package-manager }}" = "yarn" ]; then
+            yarn install --frozen-lockfile
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm install --frozen-lockfile
+          fi
+
+      - name: Install Playwright browsers
+        working-directory: ${{ inputs.working-directory }}
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} run test:e2e
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: ${{ inputs.working-directory }}/playwright-report/
+          retention-days: 7
+
+  # Job 5: Build
+  build:
+    name: 🏗️ Build
+    runs-on: ubuntu-latest
+    needs: [lint, security, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ "${{ inputs.package-manager }}" = "npm" ]; then
+            npm ci
+          elif [ "${{ inputs.package-manager }}" = "yarn" ]; then
+            yarn install --frozen-lockfile
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm install --frozen-lockfile
+          fi
+
+      - name: Build project
+        working-directory: ${{ inputs.working-directory }}
+        run: ${{ inputs.package-manager }} run ${{ inputs.build-command }}
+
+      - name: Check build size
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [ -d "dist" ] || [ -d ".next" ] || [ -d "build" ]; then
+            du -sh dist .next build 2>/dev/null || true
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            ${{ inputs.working-directory }}/dist
+            ${{ inputs.working-directory }}/.next
+            ${{ inputs.working-directory }}/build
+          retention-days: 7
+
+  # Job 6: Docker Build (Only on main branch)
+  docker:
+    name: 🐳 Docker Build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.working-directory }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_VERSION=${{ inputs.node-version }}
+
+  # Job 7: Lighthouse Performance (for web apps)
+  lighthouse:
+    name: 💡 Lighthouse
+    if: contains(github.event.head_commit.message, '[lighthouse]')
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+      - name: Build project
+        working-directory: ${{ inputs.working-directory }}
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:3000
+          uploadArtifacts: true
+
+  # Job 8: Bundle Analysis (for web apps)
+  bundle-analysis:
+    name: 📦 Bundle Analysis
+    if: contains(github.event.head_commit.message, '[bundle]')
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+      - name: Analyze bundle
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          npm run build
+          npx --yes @next/bundle-analyzer || true
+
+  # Job 9: Notify
+  notify:
+    name: 📢 Notify
+    if: always()
+    needs: [lint, security, test, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine status
+        id: status
+        run: |
+          if [ "${{ needs.lint.result }}" == "success" ] && \
+             [ "${{ needs.security.result }}" == "success" ] && \
+             [ "${{ needs.test.result }}" == "success" ] && \
+             [ "${{ needs.build.result }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send notification
+        run: |
+          echo "${{ steps.status.outputs.emoji }} CI ${{ steps.status.outputs.status }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
