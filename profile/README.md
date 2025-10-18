@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
 
 <img src="https://raw.githubusercontent.com/Tayank-LTD/.github/main/profile/logo.png" alt="Tayank Logosu" width="200"/>
