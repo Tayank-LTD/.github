@@ -1,176 +1,207 @@
-# Security Policy
+# Güvenlik Politikası
 
-## 🔒 Reporting a Vulnerability
+## 🔍 Güvenlik Açığı Bildirimi
 
-The Tayank team takes security vulnerabilities seriously. We appreciate your efforts to responsibly disclose your findings.
+Tayank ekibi olarak güvenlik açıklarını ciddiye alıyoruz. Bulgularınızı sorumlu bir şekilde ifşa etme çabalarınız için teşekkür ederiz.
 
-### 🚨 **PLEASE DO NOT:**
+### 🚨 **LÜTFEN YAPMAYIN:**
 
-- ❌ Open a public GitHub issue
-- ❌ Discuss the vulnerability publicly before it's fixed
-- ❌ Exploit the vulnerability beyond what's necessary to demonstrate it
+- ❌ Public GitHub issue açmayın
+- ❌ Açık düzeltilmeden önce güvenlik açığını herkese açık şekilde tartışmayın
+- ❌ Güvenlik açığını göstermek için gerekli olandan fazlasını istismar etmeyin
 
-### ✅ **INSTEAD, PLEASE:**
+### ✅ **LÜTFEN BUNLARI YAPIN:**
 
-**Email us at:** [security@tayank.com](mailto:security@tayank.com)
+**Bize e-posta gönderin:** [guvenlik@tayank.com](mailto:guvenlik@tayank.com)
 
-**Include in your report:**
-- Type of vulnerability
-- Full description with step-by-step reproduction
-- Potential impact
-- Suggested fix (if you have one)
-- Your contact information
+**Raporunuzda şunları ekleyin:**
+- Güvenlik açığının türü
+- Adım adım yeniden oluşturma ile tam açıklama
+- Potansiyel etki
+- Önerilen düzeltme (eğer varsa)
+- İletişim bilgileriniz
 
-## 🕐 Response Timeline
+## 🕒 Yanıt Zaman Çizelgesi
 
-We are committed to responding quickly:
+Hızlı yanıt vermeye kararlıyız:
 
-| Timeline | Action |
-|----------|--------|
-| **24 hours** | Initial acknowledgment of your report |
-| **72 hours** | Assessment and severity classification |
-| **7 days** | Regular updates on progress |
-| **30-90 days** | Target fix deployment (depends on severity) |
+| Zaman Çizelgesi | Eylem |
+|-----------------|--------|
+| **24 saat** | Raporunuzun ilk teyidi |
+| **72 saat** | Değerlendirme ve önem sınıflandırması |
+| **7 gün** | İlerleme hakkında düzenli güncellemeler |
+| **30-90 gün** | Hedef düzeltme dağıtımı (öneme bağlı) |
 
-## 🎯 Severity Levels
+## 🎯 Önem Seviyeleri
 
-### Critical (CVSS 9.0-10.0)
-- **Response time:** Immediate (within 24 hours)
-- **Fix target:** 1-7 days
-- **Examples:** Remote code execution, authentication bypass, data breach
+### Kritik (CVSS 9.0-10.0)
+- **Yanıt süresi:** Anında (24 saat içinde)
+- **Düzeltme hedefi:** 1-7 gün
+- **Örnekler:** Uzaktan kod yürütme, kimlik doğrulama atlama, veri ihlali
 
-### High (CVSS 7.0-8.9)
-- **Response time:** 24-48 hours
-- **Fix target:** 7-14 days
-- **Examples:** SQL injection, XSS, privilege escalation
+### Yüksek (CVSS 7.0-8.9)
+- **Yanıt süresi:** 24-48 saat
+- **Düzeltme hedefi:** 7-14 gün
+- **Örnekler:** SQL enjeksiyonu, XSS, ayrıcalık yükseltme
 
-### Medium (CVSS 4.0-6.9)
-- **Response time:** 48-72 hours
-- **Fix target:** 14-30 days
-- **Examples:** CSRF, information disclosure
+### Orta (CVSS 4.0-6.9)
+- **Yanıt süresi:** 48-72 saat
+- **Düzeltme hedefi:** 14-30 gün
+- **Örnekler:** CSRF, bilgi ifşası
 
-### Low (CVSS 0.1-3.9)
-- **Response time:** 1 week
-- **Fix target:** 30-90 days
-- **Examples:** Minor information leaks, low-impact bugs
+### Düşük (CVSS 0.1-3.9)
+- **Yanıt süresi:** 1 hafta
+- **Düzeltme hedefi:** 30-90 gün
+- **Örnekler:** Küçük bilgi sızıntıları, düşük etkili hatalar
 
-## 🏆 Bug Bounty Program
+## 🏆 Bug Bounty Programı
 
-**Status:** 🚧 Coming Soon (Q2 2025)
+**Durum:** 🚧 Yakında (2025 2. Çeyrek)
 
-We're planning to launch a bug bounty program with rewards for security researchers.
+Güvenlik araştırmacıları için ödüllü bir bug bounty programı başlatmayı planlıyoruz.
 
-**Planned Rewards:**
-- Critical: $1,000 - $5,000
-- High: $500 - $1,000
-- Medium: $100 - $500
-- Low: $50 - $100
+**Planlanan Ödüller:**
+- Kritik: 1.000$ - 5.000$
+- Yüksek: 500$ - 1.000$
+- Orta: 100$ - 500$
+- Düşük: 50$ - 100$
 
-Stay tuned for official announcement!
+Resmi duyuru için bizi takip edin!
 
-## 🛡️ Security Measures
+## 🛡️ Güvenlik Önlemleri
 
-Tayank implements multiple layers of security:
+Tayank, çok katmanlı güvenlik uygular:
 
-### Infrastructure Security
-- ✅ End-to-end encryption (E2EE) for DMs
-- ✅ TLS 1.3 for all connections
-- ✅ Regular security audits
-- ✅ Automated vulnerability scanning
-- ✅ DDoS protection
-- ✅ Web Application Firewall (WAF)
+### Altyapı Güvenliği
+- ✅ Özel mesajlar için uçtan uca şifreleme (E2EE)
+- ✅ Tüm bağlantılar için TLS 1.3
+- ✅ Düzenli güvenlik denetimleri
+- ✅ Otomatik güvenlik açığı taraması
+- ✅ DDoS koruması
+- ✅ Web Uygulama Güvenlik Duvarı (WAF)
 
-### Application Security
-- ✅ Input validation and sanitization
-- ✅ SQL injection prevention (parameterized queries)
-- ✅ XSS protection (Content Security Policy)
-- ✅ CSRF tokens
-- ✅ Rate limiting
-- ✅ Secure password hashing (bcrypt)
+### Uygulama Güvenliği
+- ✅ Girdi doğrulama ve temizleme
+- ✅ SQL enjeksiyonu önleme (parametreli sorgular)
+- ✅ XSS koruması (İçerik Güvenlik Politikası)
+- ✅ CSRF token'ları
+- ✅ Oran sınırlama
+- ✅ Güvenli şifre hash'leme (bcrypt)
 
-### Authentication & Authorization
-- ✅ 2FA/MFA support
+### Kimlik Doğrulama ve Yetkilendirme
+- ✅ 2FA/MFA desteği
 - ✅ OAuth 2.0
-- ✅ JWT with short expiration
-- ✅ Role-based access control (RBAC)
-- ✅ Session management
+- ✅ Kısa süreli JWT
+- ✅ Rol tabanlı erişim kontrolü (RBAC)
+- ✅ Oturum yönetimi
 
-### Data Protection
-- ✅ Encryption at rest (AES-256)
-- ✅ Encryption in transit (TLS 1.3)
-- ✅ Regular backups
-- ✅ Data retention policies
-- ✅ GDPR compliance
+### Veri Koruma
+- ✅ Yatarken şifreleme (AES-256)
+- ✅ Aktarım sırasında şifreleme (TLS 1.3)
+- ✅ Düzenli yedeklemeler
+- ✅ Veri saklama politikaları
+- ✅ GDPR uyumluluğu
 
-## 🔐 Supported Versions
+### Kod Güvenliği
+- ✅ Statik kod analizi (SAST)
+- ✅ Bağımlılık güvenlik taraması
+- ✅ Kod review süreci
+- ✅ Güvenli kodlama standartları
+- ✅ Otomatik güvenlik testleri
 
-We provide security updates for the following versions:
+## 🔐 Desteklenen Sürümler
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | ✅ Active support  |
-| 0.x.x   | ⚠️ Beta (limited) |
+Aşağıdaki sürümler için güvenlik güncellemeleri sağlıyoruz:
 
-**Recommendation:** Always use the latest stable version.
+| Sürüm | Destek Durumu |
+|-------|---------------|
+| 1.x.x | ✅ Aktif destek |
+| 0.x.x | ⚠️ Beta (sınırlı destek) |
 
-## 📜 Responsible Disclosure
+**Öneri:** Her zaman en son kararlı sürümü kullanın.
 
-We follow coordinated vulnerability disclosure:
+## 📜 Sorumlu İfşa
 
-1. **Report received** - We acknowledge your report
-2. **Validation** - We verify and assess the vulnerability
-3. **Fix development** - We develop and test a fix
-4. **Fix deployment** - We deploy the fix to production
-5. **Public disclosure** - After 90 days or when fixed (whichever comes first)
-6. **Credit** - We credit you in our security advisories (if you wish)
+Koordineli güvenlik açığı ifşası takip ediyoruz:
 
-## 🎖️ Hall of Fame
+1. **Rapor alındı** - Raporunuzu teyit ediyoruz
+2. **Doğrulama** - Güvenlik açığını doğruluyor ve değerlendiriyoruz
+3. **Düzeltme geliştirme** - Düzeltme geliştirip test ediyoruz
+4. **Düzeltme dağıtımı** - Düzeltmeyi production'a dağıtıyoruz
+5. **Public ifşa** - 90 gün sonra veya düzeltildiğinde (hangisi önceyse)
+6. **Kredi** - Güvenlik danışmanlıklarımızda size kredi veriyoruz (eğer isterseniz)
 
-We recognize security researchers who help us:
+## 🎖️ Şeref Listesi
 
-<!-- This section will be populated with contributors -->
+Bize yardımcı olan güvenlik araştırmacılarını takdir ediyoruz:
 
-*Be the first to help us improve Tayank security!*
+<!-- Bu bölüm katkıda bulunanlarla doldurulacak -->
 
-## 📚 Security Best Practices for Users
+*Tayank güvenliğini iyileştirmemize yardımcı olan ilk kişi siz olun!*
 
-### For Server Owners
-- ✅ Enable 2FA for all moderators
-- ✅ Use role-based permissions carefully
-- ✅ Audit server logs regularly
-- ✅ Keep bot permissions minimal
-- ✅ Review third-party integrations
+## 📚 Kullanıcılar İçin Güvenlik En İyi Uygulamaları
 
-### For Regular Users
-- ✅ Enable 2FA on your account
-- ✅ Use a strong, unique password
-- ✅ Don't share your credentials
-- ✅ Be cautious of phishing attempts
-- ✅ Review connected applications regularly
-- ✅ Report suspicious behavior
+### Sunucu Sahipleri İçin
+- ✅ Tüm moderatörler için 2FA'yı etkinleştirin
+- ✅ Rol tabanlı izinleri dikkatli kullanın
+- ✅ Sunucu log'larını düzenli olarak denetleyin
+- ✅ Bot izinlerini minimumda tutun
+- ✅ Üçüncü parti entegrasyonları gözden geçirin
 
-## 🚩 Known Vulnerabilities
+### Normal Kullanıcılar İçin
+- ✅ Hesabınızda 2FA'yı etkinleştirin
+- ✅ Güçlü, benzersiz bir şifre kullanın
+- ✅ Kimlik bilgilerinizi paylaşmayın
+- ✅ Oltalama girişimlerine karşı dikkatli olun
+- ✅ Bağlı uygulamaları düzenli olarak gözden geçirin
+- ✅ Şüpheli davranışları bildirin
 
-We maintain transparency about known issues:
+### Geliştiriciler İçin
+- ✅ Güvenli kodlama standartlarını takip edin
+- ✅ Düzenli güvenlik eğitimleri alın
+- ✅ Kod review sürecine katılın
+- ✅ Güvenlik testlerini ciddiye alın
+- ✅ Bağımlılıkları düzenli güncelleyin
 
-**Current Status:** No known critical vulnerabilities ✅
+## 🚩 Bilinen Güvenlik Açıkları
 
-Check our [Security Advisories](https://github.com/tayank-inc/tayank/security/advisories) for updates.
+Bilinen sorular hakkında şeffaflık sağlıyoruz:
 
-## 📞 Contact Information
+**Mevcut Durum:** Bilinen kritik güvenlik açığı yok ✅
 
-- **Security Email:** security@tayank.com
-- **PGP Key:** [Download](https://tayank.com/security-pgp.asc)
-- **Security Page:** https://tayank.com/security
+Güncellemeler için [Güvenlik Danışmanlıklarımızı](https://github.com/Tayank-LTD/tayank/security/advisories) kontrol edin.
 
-## 🔗 Related Resources
+## 📞 İletişim Bilgileri
 
-- [Privacy Policy](https://tayank.com/privacy)
-- [Terms of Service](https://tayank.com/terms)
-- [GDPR Compliance](https://tayank.com/gdpr)
+- **Güvenlik E-posta:** [guvenlik@tayank.com](mailto:guvenlik@tayank.com)
+- **PGP Anahtarı:** [İndir](https://tayank.com/guvenlik-pgp.asc)
+- **Güvenlik Sayfası:** https://tayank.com/guvenlik
+- **Acil Durum:** [acil@tayank.com](mailto:acil@tayank.com) (sadece kritik durumlar için)
+
+## 🔗 İlgili Kaynaklar
+
+- [Gizlilik Politikası](https://tayank.com/gizlilik)
+- [Kullanım Koşulları](https://tayank.com/kosullar)
+- [GDPR Uyumluluğu](https://tayank.com/gdpr)
+- [Güvenlik Blog'u](https://tayank.com/blog/guvenlik)
+
+## 🚨 Acil Durum Prosedürleri
+
+### Kritik Açık Tespit Edilirse
+1. Hemen [guvenlik@tayank.com](mailto:guvenlik@tayank.com) adresine bildirin
+2. Mümkünse PGP ile şifreleyin
+3. Açıklamanın yayılmasını önleyin
+4. Ekibimizden onay almadan herkese açık paylaşım yapmayın
+
+### Güvenlik İhlali Durumunda
+1. Etkilenen kullanıcıları bilgilendireceğiz
+2. Regülatörlere gerekli bildirimleri yapacağız
+3. Düzeltme planını paylaşacağız
+4. Önleyici tedbirleri güçlendireceğiz
 
 ---
 
-**Last Updated:** January 2025
+**Son Güncelleme:** Ocak 2025  
+**Sürüm:** 2.0
 
-Thank you for helping keep Tayank and our users safe! 🙏
+Tayank'ı ve kullanıcılarımızı güvende tutmamıza yardımcı olduğunuz için teşekkür ederiz! 🙏

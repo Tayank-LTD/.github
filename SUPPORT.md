@@ -1,251 +1,260 @@
-# Getting Support
+## 🤝 **DESTEK ALMA**
 
-Welcome to Tayank support! We're here to help. 🤝
+Tayank destek ekibine hoş geldiniz! Yardımcı olmak için buradayız. 🤝
 
-## 📚 Self-Service Resources
+## 📚 Self-Servis Kaynaklar
 
-Before reaching out, check if your question is already answered:
+Bize ulaşmadan önce, sorunuzun cevabının zaten var olup olmadığını kontrol edin:
 
-### Documentation
-- 📖 [Main Documentation](https://docs.tayank.com) - Complete guides and tutorials
-- 🔌 [API Reference](https://api.tayank.com/docs) - REST & WebSocket API docs
-- 🤖 [Bot Development](https://docs.tayank.com/bots) - Build bots and integrations
-- ❓ [FAQ](https://docs.tayank.com/faq) - Frequently asked questions
-- 🎓 [Tutorials](https://docs.tayank.com/tutorials) - Step-by-step guides
+### Dokümantasyon
+- 📖 [Ana Dokümantasyon](https://docs.tayank.com) - Tam kılavuzlar ve eğitimler
+- 🔌 [API Referansı](https://api.tayank.com/docs) - REST & WebSocket API dokümanları
+- 🤖 [Bot Geliştirme](https://docs.tayank.com/bots) - Botlar ve entegrasyonlar geliştirin
+- ❓ [SSS](https://docs.tayank.com/sss) - Sık sorulan sorular
+- 🎓 [Eğitimler](https://docs.tayank.com/egitimler) - Adım adım kılavuzlar
 
-### Common Topics
-- [Getting Started](https://docs.tayank.com/getting-started)
-- [Account Management](https://docs.tayank.com/account)
-- [Server Setup](https://docs.tayank.com/servers)
-- [Voice & Video](https://docs.tayank.com/voice)
-- [Troubleshooting](https://docs.tayank.com/troubleshooting)
+### Yaygın Konular
+- [Başlarken](https://docs.tayank.com/baslarken)
+- [Hesap Yönetimi](https://docs.tayank.com/hesap)
+- [Sunucu Kurulumu](https://docs.tayank.com/sunucular)
+- [Ses & Video](https://docs.tayank.com/ses)
+- [Sorun Giderme](https://docs.tayank.com/sorun-giderme)
 
-## 💬 Community Support
+## 💬 Topluluk Desteği
 
-### GitHub Discussions
-**🔗 [GitHub Discussions](https://github.com/orgs/tayank-inc/discussions)**
+### GitHub Tartışmaları
+**🔗 [GitHub Tartışmaları](https://github.com/orgs/Tayank-LTD/discussions)**
 
-Best for:
-- ✅ Technical discussions
-- ✅ Architecture questions
-- ✅ Feature proposals
-- ✅ Development help
+En iyi olduğu alanlar:
+- ✅ Teknik tartışmalar
+- ✅ Mimari soruları
+- ✅ Özellik önerileri
+- ✅ Geliştirme yardımı
 
-**Categories:**
-- 💡 Ideas - Feature ideas and brainstorming
-- 🙏 Q&A - Questions and answers
-- 🎉 Show and tell - Share what you built
-- 📢 Announcements - Official updates
+**Kategoriler:**
+- 💡 Fikirler - Özellik fikirleri ve beyin fırtınası
+- 🙏 Soru-Cevap - Sorular ve cevaplar
+- 🎉 Göster ve Anlat - Yaptıklarınızı paylaşın
+- 📢 Duyurular - Resmi güncellemeler
 
-## 🐛 Bug Reports
+## 🐛 Hata Bildirimleri
 
-Found a bug? Please report it!
+Bir hata mı buldunuz? Lütfen bildirin!
 
-**🔗 [Report a Bug](https://github.com/tayank-inc/tayank/issues/new?template=bug_report.yml)**
+**🔗 [Hata Bildir](https://github.com/Tayank-LTD/tayank/issues/new?template=bug_report.yml)**
 
-**Before reporting:**
-1. ✅ Check [existing issues](https://github.com/tayank-inc/tayank/issues)
-2. ✅ Search [documentation](https://docs.tayank.com)
-3. ✅ Try the latest version
-4. ✅ Check [known issues](https://status.tayank.com)
+**Bildirmeden önce:**
+1. ✅ [Mevcut issue'ları](https://github.com/Tayank-LTD/tayank/issues) kontrol edin
+2. ✅ [Dokümantasyonu](https://docs.tayank.com) arayın
+3. ✅ En son sürümü deneyin
+4. ✅ [Bilinen sorunları](https://status.tayank.com) kontrol edin
 
-**Include:**
-- Clear description
-- Steps to reproduce
-- Expected vs actual behavior
-- Screenshots/logs
-- Environment details (OS, browser, version)
+**Ekleyin:**
+- Net açıklama
+- Yeniden oluşturma adımları
+- Beklenen vs gerçekleşen davranış
+- Ekran görüntüleri/log'lar
+- Ortam detayları (İşletim Sistemi, tarayıcı, versiyon)
 
-**Response time:** 24-48 hours
+**Yanıt süresi:** 24-48 saat
 
-## ✨ Feature Requests
+## ✨ Özellik İstekleri
 
-Have an idea? We'd love to hear it!
+Bir fikriniz mi var? Duymayı çok isteriz!
 
-**🔗 [Request a Feature](https://github.com/tayank-inc/tayank/issues/new?template=feature_request.yml)**
+**🔗 [Özellik İste](https://github.com/Tayank-LTD/tayank/issues/new?template=feature_request.yml)**
 
-**Before requesting:**
-1. ✅ Check [existing requests](https://github.com/tayank-inc/tayank/issues?q=label%3A%22type%3A+feature%22)
-2. ✅ Search [roadmap](https://github.com/orgs/tayank-inc/projects/1)
-3. ✅ Consider if it fits Tayank's goals
+**İstemeden önce:**
+1. ✅ [Mevcut istekleri](https://github.com/Tayank-LTD/tayank/issues?q=label%3A%22type%3A+feature%22) kontrol edin
+2. ✅ [Yol haritasını](https://github.com/orgs/Tayank-LTD/projects/1) arayın
+3. ✅ Tayank'ın hedeflerine uygun olup olmadığını değerlendirin
 
-**Response time:** 1 week
+**Yanıt süresi:** 1 hafta
 
-## 📧 Email Support
+## 🛠️ İyileştirme Talepleri
 
-### General Inquiries
-**📬 support@tayank.com**
+Mevcut bir özelliği geliştirmek mi istiyorsunuz?
 
-For:
-- ✅ Account issues
-- ✅ Billing questions
-- ✅ Platform questions
-- ✅ Partnership inquiries
+**🔗 [İyileştirme Öner](https://github.com/Tayank-LTD/tayank/issues/new?template=improvement_request.yml)**
 
-**Response time:** 24-48 hours (business days)
+**Önermeden önce:**
+1. ✅ [Mevcut iyileştirmeleri](https://github.com/Tayank-LTD/tayank/issues?q=label%3A%22type%3A+improvement%22) kontrol edin
+2. ✅ Mevcut davranışı anladığınızdan emin olun
+3. ✅ Önerinizin kullanıcı deneyimini nasıl iyileştireceğini açıklayın
 
-### Business/Enterprise
-**📬 business@tayank.com**
+**Yanıt süresi:** 1 hafta
 
-For:
-- ✅ Enterprise plans
-- ✅ Custom solutions
-- ✅ Volume licensing
-- ✅ SLA requirements
+## 📧 E-posta Desteği
 
-**Response time:** 24 hours (business days)
+### Genel Sorular
+**📬 destek@tayank.com**
 
-### Press & Media
-**📬 press@tayank.com**
+İçin:
+- ✅ Hesap sorunları
+- ✅ Fatura soruları
+- ✅ Platform soruları
+- ✅ İşbirliği talepleri
 
-For:
-- ✅ Press inquiries
-- ✅ Media kits
-- ✅ Interview requests
-- ✅ Brand assets
+**Yanıt süresi:** 24-48 saat (iş günleri)
 
-**Response time:** 48 hours
+### İş/Kurumsal
+**📬 isbirligi@tayank.com**
 
-### Security Issues
-**🔐 security@tayank.com**
+İçin:
+- ✅ Kurumsal planlar
+- ✅ Özel çözümler
+- ✅ Toplu lisanslama
+- ✅ SLA gereksinimleri
 
-⚠️ **Do NOT email for:**
-- General questions
-- Feature requests
-- Bug reports (use GitHub)
+**Yanıt süresi:** 24 saat (iş günleri)
 
-✅ **Only for:**
-- Security vulnerabilities
-- Privacy concerns
-- Abuse reports
+### Basın & Medya
+**📬 basin@tayank.com**
 
-See our [Security Policy](SECURITY.md) for details.
+İçin:
+- ✅ Basın soruları
+- ✅ Medya kitleri
+- ✅ Röportaj talepleri
+- ✅ Marka varlıkları
 
-**Response time:** 24 hours for critical issues
+**Yanıt süresi:** 48 saat
 
-## 📱 Social Media
+### Güvenlik Sorunları
+**🔐 guvenlik@tayank.com**
 
-Stay connected:
+⚠️ **Şunlar için e-posta ATMAYIN:**
+- Genel sorular
+- Özellik istekleri
+- Hata bildirimleri (GitHub kullanın)
 
-- 🐦 **Twitter:** [@tayankapp](https://twitter.com/tayankapp) - Updates & news
-- 📘 **Facebook:** [Tayank Official](https://facebook.com/tayank) - Community
-- 📺 **YouTube:** [Tayank Channel](https://youtube.com/@tayank) - Tutorials
-- 💼 **LinkedIn:** [Tayank](https://linkedin.com/company/tayank) - Company news
+✅ **Sadece şunlar için:**
+- Güvenlik açıkları
+- Gizlilik endişeleri
+- Kötüye kullanım raporları
 
-**Note:** Social media is for announcements. For support, use channels above.
+Detaylar için [Güvenlik Politikamızı](SECURITY.md) inceleyin.
 
-## 🚨 Urgent Issues
+**Yanıt süresi:** Kritik sorunlar için 24 saat
 
-### Service Status
+## 📱 Sosyal Medya
+
+Bağlı kalın:
+
+- 🐦 **Twitter:** [@tayankapp](https://twitter.com/tayankapp) - Güncellemeler & haberler
+- 📺 **YouTube:** [Tayank Kanalı](https://youtube.com/@tayank) - Eğitimler
+- 💼 **LinkedIn:** [Tayank](https://linkedin.com/company/tayank) - Şirket haberleri
+
+**Not:** Sosyal medya duyurular içindir. Destek için yukarıdaki kanalları kullanın.
+
+## 🚨 Acil Sorunlar
+
+### Servis Durumu
 **🔗 [status.tayank.com](https://status.tayank.com)**
 
-Check here first if:
-- ❌ Can't connect
-- ❌ Messages not sending
-- ❌ Voice/video not working
-- ❌ Login issues
+Şu durumlarda önce burayı kontrol edin:
+- ❌ Bağlanamıyorsanız
+- ❌ Mesajlar gitmiyorsa
+- ❌ Ses/video çalışmıyorsa
+- ❌ Giriş sorunları yaşıyorsanız
 
-Subscribe for real-time updates!
+Gerçek zamanlı güncellemeler için abone olun!
 
-### Downtime Reports
-If services are down:
-1. Check [status.tayank.com](https://status.tayank.com)
-2. Follow [@TayankStatus](https://twitter.com/tayankstatus) on Twitter
+### Kesinti Raporları
+Servisler çalışmıyorsa:
+1. [status.tayank.com](https://status.tayank.com)'u kontrol edin
+2. [@TayankStatus](https://twitter.com/tayankstatus) Twitter hesabını takip edin
 
-**Please don't:**
-- ❌ Open GitHub issues for downtime
-- ❌ Email support (we're already aware)
+**Lütfen yapmayın:**
+- ❌ Kesinti için GitHub issue'ları açmayın
+- ❌ Destek e-postası atmayın (biz zaten farkındayız)
 
-We'll post updates as we work to resolve issues.
+Sorunları çözmek için çalışırken güncellemeleri paylaşacağız.
 
-## 📊 Support Priority Levels
+## 📊 Destek Öncelik Seviyeleri
 
-We prioritize issues based on severity:
+Sorunları önem derecesine göre önceliklendiriyoruz:
 
-| Level | Description | Response Time | Examples |
-|-------|-------------|---------------|----------|
-| 🔴 **Critical** | Service down, data loss | < 1 hour | Login broken, messages not saving |
-| 🟠 **High** | Major feature broken | < 4 hours | Voice not working, can't send files |
-| 🟡 **Medium** | Feature partially working | 1-2 days | Notifications delayed, UI glitch |
-| 🟢 **Low** | Minor inconvenience | 3-5 days | Typo, small visual bug |
+| Seviye | Açıklama | Yanıt Süresi | Örnekler |
+|--------|-----------|---------------|----------|
+| 🔴 **Kritik** | Servis çöktü, veri kaybı | < 1 saat | Giriş bozuk, mesajlar kaydedilmiyor |
+| 🟠 **Yüksek** | Büyük özellik bozuk | < 4 saat | Ses çalışmıyor, dosya gönderilemiyor |
+| 🟡 **Orta** | Özellik kısmen çalışıyor | 1-2 gün | Bildirimler gecikiyor, UI hatası |
+| 🟢 **Düşük** | Küçük rahatsızlık | 3-5 gün | Yazım hatası, küçük görsel hata |
 
-## 🌍 International Support
+## 🌍 Uluslararası Destek
 
-**Primary Language:** English
+**Birincil Dil:** Türkçe
 
-**Supported timezones:**
-- Americas: 9 AM - 5 PM EST
-- Europe: 9 AM - 5 PM CET
-- Asia/Pacific: Community support mainly
+**Desteklenen saat dilimleri:**
+- Türkiye: 09:00 - 18:00 TSİ
+- Avrupa: 09:00 - 17:00 CET
+- Amerika: Topluluk desteği ağırlıklı
+- Asya/Pasifik: Topluluk desteği ağırlıklı
 
-## 🎓 Learning Resources
+## 🎓 Öğrenme Kaynakları
 
-### Video Tutorials
-- 📺 [Getting Started with Tayank](https://youtube.com/watch?v=xxx)
-- 📺 [Setting Up Your Server](https://youtube.com/watch?v=xxx)
-- 📺 [Creating Your First Bot](https://youtube.com/watch?v=xxx)
+### Video Eğitimler
+- 📺 [Tayank'a Başlarken](https://youtube.com/watch?v=xxx)
+- 📺 [Sunucunuzu Kurma](https://youtube.com/watch?v=xxx)
+- 📺 [İlk Botunuzu Oluşturma](https://youtube.com/watch?v=xxx)
 
 ### Blog
-- 📝 [Engineering Blog](https://blog.tayank.com) - Technical deep dives
-- 📝 [Community Spotlights](https://blog.tayank.com/community)
-- 📝 [Product Updates](https://blog.tayank.com/updates)
+- 📝 [Mühendislik Blog'u](https://blog.tayank.com) - Teknik derinlemesine incelemeler
+- 📝 [Topluluk Spotları](https://blog.tayank.com/topluluk)
+- 📝 [Ürün Güncellemeleri](https://blog.tayank.com/guncellemeler)
 
-### Webinars
-- 🎥 Monthly community calls (first Tuesday of each month)
-- 🎥 Quarterly product demos
-- 🎥 Developer workshops
+### Webinarlar
+- 🎥 Aylık topluluk görüşmeleri (her ayın ilk Salı günü)
+- 🎥 Üç aylık ürün demoları
+- 🎥 Geliştirici atölyeleri
 
-Subscribe to our [newsletter](https://tayank.com/newsletter) for updates!
+Güncellemeler için [bültenimize](https://tayank.com/bulten) abone olun!
 
-## 💡 Tips for Getting Help Faster
+## 💡 Daha Hızlı Yardım Almak İçin İpuçları
 
-### ✅ Do:
-- Be specific and clear
-- Provide context
-- Include error messages/screenshots
-- Mention what you've already tried
-- Use proper formatting (code blocks, etc.)
-- Be patient and respectful
+### ✅ Yapın:
+- Spesifik ve net olun
+- Bağlam sağlayın
+- Hata mesajları/ekran görüntüleri ekleyin
+- Zaten ne denediğinizi belirtin
+- Uygun formatlama kullanın (kod blokları, vb.)
+- Sabırlı ve saygılı olun
 
-### ❌ Don't:
-- Ask "Is anyone there?"
-- Share passwords or tokens
-- Post duplicate questions
-- Bump your own questions repeatedly
-- DM team members directly (use public channels)
+### ❌ Yapmayın:
+- "Orada kimse var mı?" diye sormayın
+- Şifreleri veya token'ları paylaşmayın
+- Yinelenen sorular göndermeyin
+- Kendi sorularınızı tekrar tekrar bump'lamayın
+- Takım üyelerine doğrudan DM atmayın (public kanalları kullanın)
 
-## 🤝 Contributing to Support
+## 🤝 Destek Sürecine Katkıda Bulunma
 
-Want to help others?
+Başkalarına yardım etmek ister misiniz?
 
-**Ways to contribute:**
-- 📝 Improve documentation
-- 🎥 Create tutorials
-- 🌍 Translate content
-- 🐛 Report bugs you encounter
+**Katkıda bulunma yolları:**
+- 📝 Dokümantasyonu iyileştirin
+- 🎥 Eğitimler oluşturun
+- 🌍 İçeriği çevirin
+- 🐛 Karşılaştığınız hataları bildirin
 
-See our [Contributing Guide](CONTRIBUTING.md) to get started!
+Başlamak için [Katkıda Bulunma Rehberimizi](CONTRIBUTING.md) inceleyin!
 
-## 📞 Contact Directory
+## 📞 İletişim Dizini
 
-Quick reference:
+Hızlı referans:
 
-| Topic | Contact | Response Time |
-|-------|---------|---------------|
-| General Support | support@tayank.com | 24-48h |
-| Bug Reports | [GitHub Issues](https://github.com/tayank-inc/tayank/issues) | 24-48h |
-| Security | security@tayank.com | 24h |
-| Business | business@tayank.com | 24h |
-| Press | press@tayank.com | 48h |
-| Technical | [GitHub Discussions](https://github.com/orgs/tayank-inc/discussions) | Varies |
+| Konu | İletişim | Yanıt Süresi |
+|------|----------|---------------|
+| Genel Destek | destek@tayank.com | 24-48s |
+| Hata Bildirimleri | [GitHub Issue'ları](https://github.com/Tayank-LTD/tayank/issues) | 24-48s |
+| Güvenlik | guvenlik@tayank.com | 24s |
+| İşbirliği | isbirligi@tayank.com | 24s |
+| Basın | basin@tayank.com | 48s |
+| Teknik | [GitHub Tartışmaları](https://github.com/orgs/Tayank-LTD/discussions) | Değişken |
 
-## 🙏 Thank You!
+## 🙏 Teşekkürler!
 
-We appreciate your patience and understanding. Our goal is to provide the best support experience possible.
+Sabrınız ve anlayışınız için teşekkür ederiz. Amacımız en iyi destek deneyimini sağlamaktır.
 
-**Need help with something not listed here?**
-Email us at support@tayank.com and we'll point you in the right direction! 🚀
-
----
-
-**Last Updated:** January 2025
+**Burada listelenmeyen bir konuda yardıma mı ihtiyacınız var?**
+Bize destek@tayank.com adresinden e-posta atın ve sizi doğru yöne yönlendirelim! 🚀

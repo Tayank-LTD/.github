@@ -1,105 +1,140 @@
-# .github Repository Structure
+## 🏗️ **.github Repository Yapısı**
 
-Complete guide to this repository's organization.
+Bu repository'nin organizasyonu için tam kılavuz.
 
-## 📁 Directory Structure
+## 📁 Dizin Yapısı
 
 ```
 .github/
-├── profile/
-│   └── README.md                   → Organization profile (visible on github.com/tayank-inc)
-│
 ├── ISSUE_TEMPLATE/
-│   ├── bug_report.yml              → Bug report template
-│   ├── feature_request.yml         → Feature request template
-│   └── config.yml                  → Issue template configuration
+│   ├── bug_report.yml                  → Hata bildirim şablonu
+│   ├── improvement_request.yml         → İyileştirme talebi şablonu
+│   ├── feature_request.yml             → Özellik talebi şablonu
+│   └── config.yml                      → Issue şablonu konfigürasyonu
+│
+├── profile/
+│   ├── metrics.svg                     → Organizasyon profil metriği (github.com/tayank-inc'de görünür)
+│   └── README.md                       → Organizasyon profili (github.com/tayank-inc'de görünür)
 │
 ├── workflows/
-│   ├── reusable-go-ci.yml          → Reusable Go CI workflow
-│   ├── reusable-node-ci.yml        → Reusable Node.js CI workflow (future)
-│   └── reusable-flutter-ci.yml     → Reusable Flutter CI workflow (future)
+│   ├── auto-assign.yml                 → Otomatik atama iş akışı
+│   ├── ci-lint.yml                     → Sürekli entegrasyon ve linting
+│   ├── labels.yml                      → Etiket senkronizasyon iş akışı
+│   ├── reusable-drafter.yml            → Otomatik sürüm notları iş akışı
+│   ├── reusable-bun-ci.yml             → Yeniden kullanılabilir Bun CI
+│   ├── reusable-deploy-production.yml  → Production dağıtım iş akışı
+│   ├── reusable-docker-build.yml       → Yeniden kullanılabilir Docker build
+│   ├── reusable-flutter-ci.yml         → Yeniden kullanılabilir Flutter CI
+│   ├── reusable-go-ci.yml              → Yeniden kullanılabilir Go CI
+│   ├── reusable-metrics-ci.yml         → Metrik toplama iş akışı
+│   ├── reusable-monorepo-ci.yml        → Monorepo CI iş akışı
+│   ├── reusable-node-ci.yml            → Yeniden kullanılabilir Node.js CI
+│   ├── reusable-python-ci.yml          → Yeniden kullanılabilir Python CI
+│   └── reusable-security.yml           → Yeniden kullanılabilir güvenlik taraması
 │
-├── PULL_REQUEST_TEMPLATE.md        → Pull request template (all repos)
-├── CONTRIBUTING.md                 → How to contribute
-├── CODE_OF_CONDUCT.md              → Community guidelines
-├── SECURITY.md                     → Security policy & vulnerability reporting
-├── SETUP_GUIDE.md                  → Step-by-step guide to set up this organization-wide repository.
-├── SUPPORT.md                      → Where to get help
-├── LICENSE                         → MIT License
-├── README.md                       → This file
-└── FOLDER_STRUCTURE.md             → This structure guide
+├── CODEOWNERS                          → Kod sahipliği atamaları
+├── CONTRIBUTING.md                     → Katkıda bulunma rehberi
+├── CODE_OF_CONDUCT.md                  → Topluluk davranış kuralları
+├── dependabot.yml                      → Bağımlılık güncelleme konfigürasyonu
+├── FUNDING.yml                         → Sponsorluk ve finansman bilgileri
+├── FUNDING-README.md                   → Finansman ve destek rehberi
+├── labels.yml                          → Otomatik etiket konfigürasyonu
+├── labels-README.md                    → Etiket kullanım kılavuzu
+├── FOLDER_STRUCTURE.md                 → Bu yapı rehberi (bu dosya)
+├── LICENSE                             → MIT Lisansı
+├── PULL_REQUEST_TEMPLATE.md            → Pull request şablonu
+├── README.md                           → Ana README dosyası
+├── release-drafter.yml                 → Otomatik sürüm notları konfigürasyonu
+├── release-drafter-README.md           → Sürüm notları kullanım kılavuzu
+├── SECURITY.md                         → Güvenlik politikası ve güvenlik açığı bildirimi
+├── SETUP_GUIDE.md                      → Organizasyon geneli repository kurulum rehberi
+└── SUPPORT.md                          → Yardım alma rehberi
 ```
 
-## 📄 File Descriptions
+## 📄 Dosya Açıklamaları
 
-### profile/README.md
-**Purpose:** Organization landing page on GitHub  
-**Visible to:** Public (everyone visiting github.com/tayank-inc)  
-**Contains:**
-- Project overview
-- Repository links
-- Features & roadmap
-- Contact information
+### 🎯 **profile/README.md**
+**Amaç:** GitHub organizasyon ana sayfası  
+**Görünürlük:** Herkese açık (github.com/tayank-inc ziyaretçileri)  
+**İçerik:**
+- Proje genel bakış
+- Repository bağlantıları
+- Özellikler ve yol haritası
+- İletişim bilgileri
 
-**Usage:** Automatically displayed on organization page
-
----
-
-### ISSUE_TEMPLATE/bug_report.yml
-**Purpose:** Standardized bug reporting  
-**Used by:** All organization repositories (unless overridden)  
-**Format:** YAML form (GitHub's new issue form format)  
-
-**Sections:**
-- Description
-- Steps to reproduce
-- Expected vs actual behavior
-- Component selection
-- Severity level
-- Environment details
-- Logs/screenshots
+**Kullanım:** Organizasyon sayfasında otomatik olarak görüntülenir
 
 ---
 
-### ISSUE_TEMPLATE/feature_request.yml
-**Purpose:** Structured feature requests  
-**Used by:** All organization repositories  
+### 🐛 **ISSUE_TEMPLATE/bug_report.yml**
+**Amaç:** Standartlaştırılmış hata bildirimi  
+**Kullanım:** Tüm organizasyon repository'leri (geçersiz kılınmadığı sürece)  
+**Format:** YAML form (GitHub'ın yeni issue form formatı)
+
+**Bölümler:**
+- Açıklama
+- Yeniden oluşturma adımları
+- Beklenen vs gerçekleşen davranış
+- Bileşen seçimi
+- Önem seviyesi
+- Ortam detayları
+- Loglar/ekran görüntüleri
+
+---
+
+### 🚀 **ISSUE_TEMPLATE/feature_request.yml**
+**Amaç:** Yapılandırılmış özellik talepleri  
+**Kullanım:** Tüm organizasyon repository'leri  
 **Format:** YAML form
 
-**Sections:**
-- Problem statement
-- Proposed solution
-- Alternatives considered
-- Use cases
-- Mockups/examples
+**Bölümler:**
+- Problem tanımı
+- Önerilen çözüm
+- Değerlendirilen alternatifler
+- Kullanım senaryoları
+- Mockup'lar/örnekler
 
 ---
 
-### ISSUE_TEMPLATE/config.yml
-**Purpose:** Configure issue templates & external links  
-**Contains:**
-- Disable blank issues
-- Links to documentation
-- Security reporting link
+### 🛠️ **ISSUE_TEMPLATE/improvement_request.yml**
+**Amaç:** Mevcut özelliklerin iyileştirilmesi için talepler  
+**Kullanım:** Tüm organizasyon repository'leri  
+**Format:** YAML form
+
+**Bölümler:**
+- Mevcut davranış
+- Önerilen iyileştirme
+- Alternatif çözümler
+- Etkilenecek bileşenler
+- Öncelik değerlendirmesi
 
 ---
 
-### workflows/reusable-go-ci.yml
-**Purpose:** Shared CI/CD workflow for Go services  
-**Used by:** All Go microservices
+### ⚙️ **ISSUE_TEMPLATE/config.yml**
+**Amaç:** Issue şablonlarını ve harici bağlantıları yapılandırma  
+**İçerik:**
+- Boş issue'ları devre dışı bırakma
+- Dokümantasyon bağlantıları
+- Güvenlik bildirimi bağlantısı
 
-**Jobs:**
+---
+
+### 🔄 **workflows/reusable-go-ci.yml**
+**Amaç:** Go servisleri için paylaşılan CI/CD iş akışı  
+**Kullanım:** Tüm Go microservisleri
+
+**Görevler:**
 1. Lint & Format (golangci-lint, gofmt)
-2. Security Scan (Gosec)
-3. Unit Tests (with coverage check)
-4. Integration Tests (optional)
-5. Build (compile binary)
-6. Docker Build (on main branch)
-7. Notify (status reporting)
+2. Güvenlik Taraması (Gosec)
+3. Birim Testleri (kapsam kontrolü ile)
+4. Entegrasyon Testleri (opsiyonel)
+5. Build (binary derleme)
+6. Docker Build (main branch'de)
+7. Bildirim (durum raporlama)
 
-**How to use:**
+**Kullanım:**
 ```yaml
-# In service repo: .github/workflows/ci.yml
+# Servis repo'sunda: .github/workflows/ci.yml
 jobs:
   ci:
     uses: tayank-inc/.github/.github/workflows/reusable-go-ci.yml@main
@@ -110,168 +145,209 @@ jobs:
 
 ---
 
-### PULL_REQUEST_TEMPLATE.md
-**Purpose:** Consistent PR format across all repos  
-**Used by:** All pull requests in organization  
+### 🔄 **workflows/reusable-bun-ci.yml**
+**Amaç:** Bun runtime kullanan projeler için CI  
+**Kullanım:** Frontend ve Node.js botları
 
-**Sections:**
-- Description & issue link
-- Type of change
-- Changes made
-- Testing details
-- Screenshots
-- Checklist
-
----
-
-### CONTRIBUTING.md
-**Purpose:** Comprehensive contribution guide  
-**Audience:** Contributors (internal & external)
-
-**Contents:**
-- How to contribute (bugs, features, code)
-- Development setup
-- Pull request process
-- Coding standards (Go, TypeScript, Flutter)
-- Commit guidelines (Conventional Commits)
-- Testing guidelines
+**Görevler:**
+1. Bağımlılık kurulumu (bun install)
+2. TypeScript kontrolü
+3. Lint (ESLint)
+4. Format (Prettier)
+5. Test (bun test)
+6. Build (bun build)
 
 ---
 
-### CODE_OF_CONDUCT.md
-**Purpose:** Community behavior standards  
-**Based on:** Contributor Covenant v2.1  
+### 🔄 **workflows/reusable-flutter-ci.yml**
+**Amaç:** Flutter mobil uygulamaları için CI  
+**Kullanım:** Tüm Flutter projeleri
 
-**Key sections:**
-- Our pledge
-- Standards (expected & unacceptable behavior)
-- Enforcement responsibilities
-- Reporting process
-- Consequences
-
----
-
-### SECURITY.md
-**Purpose:** Security vulnerability reporting & policies  
-
-**Contains:**
-- How to report vulnerabilities (security@tayank.com)
-- Response timeline
-- Severity levels (Critical → Low)
-- Bug bounty program info
-- Security measures implemented
-- Supported versions
-- Best practices for users
+**Görevler:**
+1. Flutter versiyon yönetimi
+2. Bağımlılık kurulumu (flutter pub get)
+3. Lint (dart analyze)
+4. Format (dart format)
+5. Test (flutter test)
+6. Build (Android & iOS)
 
 ---
 
-### SUPPORT.md
-**Purpose:** Where to get help  
+### 🔄 **workflows/reusable-python-ci.yml**
+**Amaç:** Python botları ve script'leri için CI  
+**Kullanım:** Python projeleri
 
-**Resources:**
-- Self-service (docs, FAQ)
-- Bug reports & feature requests
-- Email support (different addresses)
-- Social media
-- Service status
-
----
-
-### LICENSE
-**Purpose:** Legal license for repository content  
-**Type:** MIT License  
-**Applies to:** .github repository content (templates, docs)
-
-**Note:** Individual project repositories may have different licenses.
+**Görevler:**
+1. Python versiyon yönetimi
+2. Bağımlılık kurulumu (pip/pipenv/poetry)
+3. Lint (flake8, black)
+4. Test (pytest)
+5. Güvenlik taraması (bandit, safety)
 
 ---
 
-### README.md
-**Purpose:** Overview of .github repository itself  
-**Contains:**
-- Repository purpose
-- File descriptions
-- Quick links
-- How to use templates
+### 📝 **PULL_REQUEST_TEMPLATE.md**
+**Amaç:** Tüm repo'larda tutarlı PR formatı  
+**Kullanım:** Organizasyondaki tüm pull request'ler
+
+**Bölümler:**
+- Açıklama ve issue bağlantısı
+- Değişiklik türü
+- Yapılan değişiklikler
+- Test detayları
+- Ekran görüntüleri
+- Kontrol listesi
 
 ---
 
-## 🎯 How Files Are Used
+### 🤝 **CONTRIBUTING.md**
+**Amaç:** Kapsamlı katkı rehberi  
+**Hedef Kitle:** Katkıda bulunanlar (dahili ve harici)
 
-### Automatic Application
+**İçerik:**
+- Nasıl katkıda bulunulur (hata, özellik, kod)
+- Geliştirme kurulumu
+- Pull request süreci
+- Kodlama standartları (Go, TypeScript, Flutter, Python)
+- Commit kuralları (Conventional Commits)
+- Test kılavuzları
 
-These files apply to **all repositories** in the organization automatically:
+---
 
-- ✅ `ISSUE_TEMPLATE/*` - Unless repo has its own
-- ✅ `PULL_REQUEST_TEMPLATE.md` - Unless repo has its own
-- ✅ `CODE_OF_CONDUCT.md` - Referenced from all repos
-- ✅ `SECURITY.md` - Referenced from all repos
-- ✅ `CONTRIBUTING.md` - Referenced from all repos
-- ✅ `SUPPORT.md` - Linked from issues/PRs
+### 📜 **CODE_OF_CONDUCT.md**
+**Amaç:** Topluluk davranış standartları  
+**Temel:** Contributor Covenant v2.1
 
-### Manual Reference
+**Ana Bölümler:**
+- Taahhüdümüz
+- Standartlar (beklenen ve kabul edilemez davranışlar)
+- Uygulama sorumlulukları
+- Bildirim süreci
+- Sonuçlar
 
-These files are used explicitly:
+---
 
-- 🔗 `workflows/*.yml` - Called from service repos
-- 🔗 `profile/README.md` - Displayed on org page
+### 🔒 **SECURITY.md**
+**Amaç:** Güvenlik açığı bildirimi ve politikalar
 
-### Repository Override
+**İçerik:**
+- Güvenlik açıkları nasıl bildirilir (security@tayank.com)
+- Yanıt zaman çizelgesi
+- Önem seviyeleri (Kritik → Düşük)
+- Bug bounty program bilgileri
+- Uygulanan güvenlik önlemleri
+- Desteklenen versiyonlar
+- Kullanıcılar için en iyi uygulamalar
 
-Individual repos can override these files by creating their own:
+---
+
+### ❓ **SUPPORT.md**
+**Amaç:** Yardım alınacak kaynaklar
+
+**Kaynaklar:**
+- Self-servis (dokümanlar, SSS)
+- Hata bildirimleri ve özellik talepleri
+- E-posta desteği (farklı adresler)
+- Sosyal medya
+- Servis durumu
+
+---
+
+### ⚖️ **LICENSE**
+**Amaç:** Repository içeriği için yasal lisans  
+**Tür:** MIT Lisansı  
+**Uygulandığı:** .github repository içeriği (şablonlar, dokümanlar)
+
+**Not:** Bireysel proje repository'leri farklı lisanslara sahip olabilir.
+
+---
+
+### 📖 **README.md**
+**Amaç:** .github repository'sinin genel bakışı  
+**İçerik:**
+- Repository amacı
+- Dosya açıklamaları
+- Hızlı bağlantılar
+- Şablonların nasıl kullanılacağı
+
+---
+
+## 🎯 Dosyaların Kullanımı
+
+### Otomatik Uygulama
+
+Bu dosyalar organizasyondaki **tüm repository'lere** otomatik olarak uygulanır:
+
+- ✅ `ISSUE_TEMPLATE/*` - Repo'nun kendi şablonu olmadığı sürece
+- ✅ `PULL_REQUEST_TEMPLATE.md` - Repo'nun kendi şablonu olmadığı sürece
+- ✅ `CODE_OF_CONDUCT.md` - Tüm repo'lardan referans verilir
+- ✅ `SECURITY.md` - Tüm repo'lardan referans verilir
+- ✅ `CONTRIBUTING.md` - Tüm repo'lardan referans verilir
+- ✅ `SUPPORT.md` - Issue/PR'lardan bağlantı verilir
+
+### Manuel Referans
+
+Bu dosyalar açıkça kullanılır:
+
+- 🔗 `workflows/*.yml` - Servis repo'larından çağrılır
+- 🔗 `profile/README.md` - Organizasyon sayfasında görüntülenir
+
+### Repository Geçersiz Kılma
+
+Bireysel repo'lar kendi dosyalarını oluşturarak bunları geçersiz kılabilir:
 
 ```
-Example:
+Örnek:
 tayank-inc/auth-service/.github/ISSUE_TEMPLATE/bug_report.yml
-  ↑ This overrides the organization template
+  ↑ Bu organizasyon şablonunu geçersiz kılar
 ```
 
-## 🔄 Update Process
+## 🔄 Güncelleme Süreci
 
-### When to Update
+### Ne Zaman Güncellenmeli
 
-- ✏️ **Bug report template** - When fields are missing/redundant
-- ✏️ **Feature template** - When request format changes
-- ✏️ **PR template** - When checklist items change
-- ✏️ **Contributing** - When development process changes
-- ✏️ **Security** - When contact/policy changes
-- ✏️ **Workflows** - When CI/CD process improves
+- ✏️ **Hata bildirim şablonu** - Alanlar eksik/gereksiz olduğunda
+- ✏️ **Özellik şablonu** - İstek formatı değiştiğinde
+- ✏️ **PR şablonu** - Kontrol listesi öğeleri değiştiğinde
+- ✏️ **Katkı rehberi** - Geliştirme süreci değiştiğinde
+- ✏️ **Güvenlik** - İletişim/politika değiştiğinde
+- ✏️ **İş akışları** - CI/CD süreci iyileştirildiğinde
 
-### How to Update
+### Nasıl Güncellenir
 
-1. Create branch: `update/template-name`
-2. Make changes
-3. Test with a service repo
-4. Open PR (requires 1 approval)
-5. Merge to main
-6. Changes apply organization-wide
+1. Branch oluştur: `update/şablon-ismi`
+2. Değişiklikleri yap
+3. Bir servis repo'su ile test et
+4. PR aç (1 onay gerektirir)
+5. Main'e merge et
+6. Değişiklikler organizasyon genelinde uygulanır
 
-### Testing Templates
+### Şablon Test Etme
 
-Before merging template changes:
+Şablon değişikliklerini merge etmeden önce:
 
 ```bash
-# Create test issue/PR in a sandbox repo
-# Use the updated template
-# Verify all fields work
-# Check for typos/formatting
+# Bir test issue/PR'ı sandbox repo'sunda oluştur
+# Güncellenmiş şablonu kullan
+# Tüm alanların çalıştığını doğrula
+# Yazım/formatlama hatalarını kontrol et
 ```
 
-## 📋 Checklist for New Files
+## 📋 Yeni Dosyalar İçin Kontrol Listesi
 
-When adding new files:
+Yeni dosya eklerken:
 
-- [ ] Add description to this FOLDER_STRUCTURE.md
-- [ ] Update README.md if necessary
-- [ ] Test in at least one repository
-- [ ] Document usage in CONTRIBUTING.md if applicable
+- [ ] Bu FOLDER_STRUCTURE.md'ye açıklama ekle
+- [ ] Gerekirse README.md'yi güncelle
+- [ ] En az bir repository'de test et
+- [ ] Uygunsa CONTRIBUTING.md'de kullanımı belgele
 
-## 🔗 Related Resources
+## 🔗 İlgili Kaynaklar
 
-- [GitHub Docs: Creating a default community health file](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
-- [GitHub Docs: Issue and PR templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
-- [GitHub Docs: Reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
+- [GitHub Dokümanları: Varsayılan topluluk sağlık dosyası oluşturma](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+- [GitHub Dokümanları: Issue ve PR şablonları](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+- [GitHub Dokümanları: Yeniden kullanılabilir iş akışları](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 
 ---
 
-**Questions?** Open a [Discussion](https://github.com/orgs/tayank-inc/discussions)
+**Sorularınız mı var?** Bir [Tartışma](https://github.com/orgs/tayank-inc/discussions) açın

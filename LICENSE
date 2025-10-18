@@ -1,6 +1,26 @@
-MIT License
+MIT Lisansı
 
-Copyright (c) 2025 Tayank Inc.
+Copyright (c) 2025 Tayank LTD.
+
+Aşağıdaki koşullarla birlikte, bu yazılım ve ilgili dokümantasyon dosyalarından ("Yazılım")
+bir kopyasını edinen herkese, hiçbir kısıtlama olmaksızın Yazılımı kullanma, kopyalama,
+değiştirme, birleştirme, yayımlama, dağıtma, alt lisanslama ve/veya Yazılımın kopyalarını
+satma hakkı ücretsiz olarak verilir. Ve Yazılımın sağlandığı kişilere, aşağıdaki koşullara
+uymaları kaydıyla bu haklar tanınır:
+
+Yukarıdaki telif hakkı bildirimi ve bu izin bildirimi, Yazılımın tüm kopyalarına veya
+önemli parçalarına eklenmelidir.
+
+YAZILIM "OLDUĞU GİBİ", HİÇBİR GARANTİ OLMAKSIZIN, AÇIKÇA VEYA ZIMNEN, TİCARETE ELVERİŞLİLİK,
+BELİRLİ BİR AMACA UYGUNLUK VE İHLAL OLMAMASI DAHİL ANCAK BUNLARLA SINIRLI OLMAMAK ÜZERE
+HİÇBİR GARANTİ VERİLMEKSİZİN SUNULMUŞTUR. HİÇBİR KOŞULDA YAZARLAR VEYA TELİF HAKKI SAHİPLERİ,
+HERHANGİ BİR TAZMİNAT, ZARAR VEYA DİĞER SORUMLULUKLARDAN, YAZILIM VEYA YAZILIMIN KULLANIMI
+VEYA YAZILIMLA İLGİLİ DİĞER İŞLEMLERDEN KAYNAKLANAN SÖZLEŞME, HAKSIZ FİİL VEYA DİĞER
+DURUMLARDA SORUMLU TUTULAMAZ.
+
+EN: MIT License
+
+Copyright (c) 2025 Tayank LTD.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

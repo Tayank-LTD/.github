@@ -1,17 +1,25 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 📚 Documentation
+  - name: 📚 Tayank Dokümantasyon
     url: https://docs.tayank.com
-    about: Check our documentation for guides and API reference
+    about: Kılavuzlar ve API referansları için dokümantasyonumuza göz atın.
+
+  - name: ❓ SSS (SSS)
+    url: https://tayank.com/faq
+    about: En sık sorulan sorular ve çözümleri burada bulabilirsiniz.
   
-  - name: 🔐 Security Vulnerability
-    url: mailto:security@tayank.com
-    about: Report security vulnerabilities privately via email
-  
-  - name: 💡 Feature Discussion
-    url: https://github.com/orgs/tayank-inc/discussions
-    about: Discuss new ideas and features with the community
-  
-  - name: 📧 General Support
+  - name: 📧 Genel Destek
     url: mailto:support@tayank.com
-    about: Contact support for account or usage questions
+    about: Hesap veya kullanım ile ilgili destek için bizimle iletişime geçin.
+
+  - name: 💡 Yeni Özellik Tartışması
+    url: https://github.com/orgs/Tayank-LTD/discussions
+    about: Topluluk ile yeni fikirler ve özellikler hakkında tartışın.
+  
+  - name: 📝 Geri Bildirim
+    url: https://tayank.com/feedback
+    about: Platform deneyiminizi iyileştirmek için görüşlerinizi paylaşın.
+  
+  - name: 🔐 Güvenlik Açığı Bildirimi
+    url: mailto:security@tayank.com
+    about: Güvenlik açıklarını gizli ve özel olarak e-posta ile bildirin.

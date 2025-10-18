@@ -1,0 +1,134 @@
+name: 🏷️ Sürüm Taslağı Oluştur
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  schedule:
+    - cron: '0 10 * * 1'  # Her Pazartesi 10:00'da (UTC)
+  workflow_dispatch:  # Manuel tetikleme için
+
+env:
+  CONFIG_PATH: '.github/release-drafter.yml'
+
+jobs:
+  update_release_draft:
+    name: 📦 Sürüm Taslağını Güncelle
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    # Gerekli izinler
+    permissions:
+      contents: write
+      pull-requests: read
+    
+    # Sadece merge edilmiş PR'lar için çalışsın
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')) ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    
+    steps:
+      - name: 📥 Repository'yi Çek
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Tüm commit geçmişini al
+          token: ${{ secrets.GITHUB_TOKEN }}
+        timeout-minutes: 2
+
+      - name: 🔍 Release Drafter Config Kontrolü
+        id: check-config
+        timeout-minutes: 1
+        run: |
+          if [ -f "${{ env.CONFIG_PATH }}" ]; then
+            echo "✅ Release drafter config dosyası bulundu"
+            echo "config_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Release drafter config dosyası bulunamadı: ${{ env.CONFIG_PATH }}"
+            echo "config_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🏷️ Sürüm Taslağını Güncelle
+        if: steps.check-config.outputs.config_exists == 'true'
+        uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter.yml
+          disable-autolabeler: false
+          name: 'v{{ env.NEXT_RELEASE }}'  # Otomatik sürüm ismi
+          tag: 'v{{ env.NEXT_RELEASE }}'
+          version: '{{ env.NEXT_RELEASE }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        timeout-minutes: 5
+
+      - name: 📊 Sürüm Durumunu Raporla
+        if: always()
+        timeout-minutes: 2
+        run: |
+          echo "## 🏷️ Sürüm Taslağı Durumu" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ job.status }}" = "success" ]; then
+            if [ "${{ steps.check-config.outputs.config_exists }}" = "true" ]; then
+              echo "✅ **Durum:** Sürüm taslağı başarıyla güncellendi" >> $GITHUB_STEP_SUMMARY
+              echo "📅 **Tetiklendiği için:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+              
+              if [ "${{ github.event_name }}" == "schedule" ]; then
+                echo "⏰ **Tip:** Zamanlanmış güncelleme" >> $GITHUB_STEP_SUMMARY
+              elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+                echo "👤 **Tip:** Manuel tetikleme" >> $GITHUB_STEP_SUMMARY
+              elif [ "${{ github.event_name }}" == "push" ]; then
+                echo "🔀 **Tip:** Branch push" >> $GITHUB_STEP_SUMMARY
+                echo "🌿 **Branch:** ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+              elif [ "${{ github.event_name }}" == "pull_request" ]; then
+                echo "🎯 **Tip:** PR merge" >> $GITHUB_STEP_SUMMARY
+                echo "📝 **PR:** #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
+              fi
+            else
+              echo "❌ **Durum:** Config dosyası bulunamadı" >> $GITHUB_STEP_SUMMARY
+              echo "📁 **Aranan Config:** ${{ env.CONFIG_PATH }}" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "❌ **Durum:** Sürüm taslağı güncellenemedi" >> $GITHUB_STEP_SUMMARY
+            echo "🔍 **Sebep:** İşlem başarısız oldu" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Çalıştıran:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ **Çalışma Zamanı:** $(date +'%d.%m.%Y %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+
+  # Sürüm doğrulama işi (opsiyonel)
+  validate_release:
+    name: ✅ Sürüm Doğrulama
+    runs-on: ubuntu-latest
+    needs: update_release_draft
+    if: always() && needs.update_release_draft.result == 'success'
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📋 Draft Release'leri Listele
+        timeout-minutes: 3
+        run: |
+          echo "## 📋 Mevcut Draft Release'ler" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          DRAFTS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases" | \
+            jq -r '.[] | select(.draft == true) | "| \(.name) | \(.tag_name) | \(.created_at) |"')
+          
+          if [ -n "$DRAFTS" ]; then
+            echo "| İsim | Tag | Oluşturulma Tarihi |" >> $GITHUB_STEP_SUMMARY
+            echo "|------|-----|-------------------|" >> $GITHUB_STEP_SUMMARY
+            echo "$DRAFTS" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️  Henüz draft release bulunmuyor" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -1,0 +1,290 @@
+name: Monorepo CI
+
+on:
+  workflow_dispatch:
+
+# Workflow seviyesinde timeout
+timeout-minutes: 60
+
+jobs:
+  # --------------------
+  # Node.js
+  # --------------------
+  nodejs:
+    name: 🟢 Node.js CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: './services/node-app/package-lock.json'
+
+      - name: 📦 Install dependencies
+        timeout-minutes: 3
+        run: npm ci
+        working-directory: ./services/node-app
+
+      - name: 🔍 Lint
+        timeout-minutes: 2
+        run: npm run lint
+        working-directory: ./services/node-app
+
+      - name: 🧪 Unit Tests
+        timeout-minutes: 5
+        run: npm test -- --coverage
+        working-directory: ./services/node-app
+
+      - name: 📤 Upload coverage
+        uses: codecov/codecov-action@v3
+        timeout-minutes: 2
+        with:
+          file: ./services/node-app/coverage/coverage-final.json
+          flags: nodejs
+
+  # --------------------
+  # Bun.js
+  # --------------------
+  bunjs:
+    name: 🟣 Bun.js CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: ⚙️ Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 'latest'
+
+      - name: 📦 Install dependencies
+        timeout-minutes: 3
+        run: bun install --frozen-lockfile
+        working-directory: ./services/bun-app
+
+      - name: 🔍 Lint
+        timeout-minutes: 2
+        run: bun run lint
+        working-directory: ./services/bun-app
+
+      - name: 🧪 Unit Tests
+        timeout-minutes: 5
+        run: bun test --coverage
+        working-directory: ./services/bun-app
+
+      - name: 📤 Upload coverage
+        uses: codecov/codecov-action@v3
+        timeout-minutes: 2
+        with:
+          file: ./services/bun-app/coverage/coverage-final.json
+          flags: bunjs
+
+  # --------------------
+  # Python
+  # --------------------
+  python:
+    name: 🐍 Python CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    strategy:
+      matrix:
+        python-version: ['3.11']
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: ⚙️ Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: './services/python-app/requirements.txt'
+
+      - name: 📦 Install dependencies
+        timeout-minutes: 3
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov flake8
+        working-directory: ./services/python-app
+
+      - name: 🔍 Lint
+        timeout-minutes: 2
+        run: flake8 . --count --max-complexity=10 --statistics
+        working-directory: ./services/python-app
+
+      - name: 🧪 Unit Tests
+        timeout-minutes: 5
+        run: pytest --cov=./ --cov-report=xml --cov-report=term-missing
+        working-directory: ./services/python-app
+
+      - name: 📤 Upload coverage
+        uses: codecov/codecov-action@v3
+        timeout-minutes: 2
+        with:
+          file: ./services/python-app/coverage.xml
+          flags: python
+
+  # --------------------
+  # Go
+  # --------------------
+  golang:
+    name: 🔵 Go CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: ⚙️ Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+          cache-dependency-path: './services/go-app/go.sum'
+
+      - name: 📦 Download dependencies
+        timeout-minutes: 3
+        run: go mod download && go mod verify
+        working-directory: ./services/go-app
+
+      - name: 🔍 Lint
+        timeout-minutes: 3
+        run: |
+          # Install golangci-lint if not present
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          golangci-lint run ./... --timeout=2m
+        working-directory: ./services/go-app
+
+      - name: 🧪 Unit Tests
+        timeout-minutes: 5
+        run: go test -v -coverprofile=coverage.out -covermode=atomic ./...
+        working-directory: ./services/go-app
+
+      - name: 📤 Upload coverage
+        uses: codecov/codecov-action@v3
+        timeout-minutes: 2
+        with:
+          file: ./services/go-app/coverage.out
+          flags: go
+
+  # --------------------
+  # Flutter
+  # --------------------
+  flutter:
+    name: 💙 Flutter CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+          channel: 'stable'
+          cache: true
+          cache-key: flutter-app-${{ hashFiles('**/pubspec.lock') }}
+          cache-path: ./services/flutter-app/.dart_tool
+
+      - name: 📦 Get dependencies
+        timeout-minutes: 3
+        run: flutter pub get
+        working-directory: ./services/flutter-app
+
+      - name: 🔍 Analyze & Lint
+        timeout-minutes: 3
+        run: flutter analyze --no-pub --no-fatal-infos
+        working-directory: ./services/flutter-app
+
+      - name: 🧪 Unit & Widget Tests
+        timeout-minutes: 10
+        run: flutter test --coverage --reporter=expanded --test-randomize-ordering-seed=random
+        working-directory: ./services/flutter-app
+
+      - name: 📤 Upload coverage
+        uses: codecov/codecov-action@v3
+        timeout-minutes: 2
+        with:
+          file: ./services/flutter-app/coverage/lcov.info
+          flags: flutter
+
+  # --------------------
+  # Notify
+  # --------------------
+  notify:
+    name: 📢 CI Sonuçları
+    runs-on: ubuntu-latest
+    needs: [nodejs, bunjs, python, golang, flutter]
+    if: always()
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📊 Determine status
+        id: status
+        timeout-minutes: 1
+        run: |
+          RESULTS=""
+          FAILED_JOBS=""
+          
+          for job in nodejs bunjs python golang flutter; do
+            result="${{ needs[job].result }}"
+            RESULTS="${RESULTS}${job}: ${result}\n"
+            if [ "$result" != "success" ] && [ "$result" != "skipped" ]; then
+              FAILED_JOBS="${FAILED_JOBS} $job"
+            fi
+          done
+          
+          if [ -z "$FAILED_JOBS" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+            echo "message=Tüm testler başarılı! 🎉" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+            echo "message=Başarısız job'lar:$FAILED_JOBS" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "results<<EOF" >> $GITHUB_OUTPUT
+          echo "$RESULTS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 📋 Send summary
+        timeout-minutes: 2
+        run: |
+          echo "${{ steps.status.outputs.emoji }} CI ${{ steps.status.outputs.status }}"
+          echo "${{ steps.status.outputs.message }}"
+          echo ""
+          echo "## 📊 CI Sonuçları" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Durum:** ${{ steps.status.outputs.emoji }} ${{ steps.status.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Job Sonuçları:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.status.outputs.results }}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY  
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Çalıştıran:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ **Çalışma Zamanı:** $(date +'%d.%m.%Y %H:%M:%S')" >> $GITHUB_STEP_SUMMARY

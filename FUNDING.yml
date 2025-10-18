@@ -1,0 +1,42 @@
+# Tayank Projesi Finansman Seçenekleri
+# Bu dosya, GitHub'da proje sayfasında "Sponsor" butonunu gösterir
+
+# GitHub Sponsors
+github:
+  - "Tayank-LTD"                 # Organizasyon sponsorluğu
+  - "tayank-lead"                # Proje lideri
+  - "backend-lead"               # Backend takım lideri
+  - "frontend-lead"              # Frontend takım lideri
+  - "mobile-lead"                # Mobil takım lideri
+
+# Açık Kolektif (Open Collective)
+open_collective: "tayank"
+
+# Patreon
+patreon: "tayank"
+
+# Ko-fi
+ko_fi: "tayank"
+
+# Liberapay
+liberapay: "tayank"
+
+# Özel Finansman Bağlantıları
+custom:
+  - "https://tayank.com/donate"                   # Doğrudan bağış sayfası
+  - "https://tayank.com/sponsor"                  # Kurumsal sponsorluk
+  - "https://tayank.com/enterprise"               # Enterprise desteği
+  - "https://opencollective.com/tayank"           # Açık Kolektif
+  - "https://github.com/sponsors/Tayank-LTD"      # GitHub Sponsors
+  - "https://patreon.com/tayank"                  # Patreon
+  - "https://ko-fi.com/tayank"                    # Ko-fi
+  - "https://liberapay.com/tayank"                # Liberapay
+
+# Tidelift (Profesyonel destek)
+tidelift: "npm/tayank"
+
+# Community Bridge
+community_bridge: "tayank"
+
+# Otechie
+otechie: "tayank"

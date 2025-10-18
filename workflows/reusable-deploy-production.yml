@@ -1,0 +1,412 @@
+name: 🚀 Production'a Dağıtım
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Dağıtım Ortamı'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+      force_deploy:
+        description: 'Zorla Dağıtım'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+env:
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+  GO_VERSION: '1.21'
+  FLUTTER_VERSION: '3.13.x'
+  BUN_VERSION: 'latest'
+
+# Workflow seviyesinde timeout
+timeout-minutes: 90
+
+jobs:
+  # --------------------
+  # Validation & Setup
+  # --------------------
+  validate:
+    name: 🔍 Deploy Validasyonu
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    outputs:
+      should_deploy: ${{ steps.check-changes.outputs.should_deploy }}
+      changed_services: ${{ steps.check-changes.outputs.changed_services }}
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Değişiklikleri Kontrol Et
+        id: check-changes
+        timeout-minutes: 3
+        run: |
+          echo "Servis dizinlerindeki değişiklikler kontrol ediliyor..."
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          echo "Değişen dosyalar: $CHANGED_FILES"
+          
+          # Hangi servislerin değiştiğini tespit et
+          CHANGED_SERVICES=""
+          if echo "$CHANGED_FILES" | grep -q "backend/"; then
+            CHANGED_SERVICES="$CHANGED_SERVICES,backend"
+          fi
+          if echo "$CHANGED_FILES" | grep -q "frontend/"; then
+            CHANGED_SERVICES="$CHANGED_SERVICES,frontend"
+          fi
+          if echo "$CHANGED_FILES" | grep -q "mobile/"; then
+            CHANGED_SERVICES="$CHANGED_SERVICES,mobile"
+          fi
+          if echo "$CHANGED_FILES" | grep -q "bots/"; then
+            CHANGED_SERVICES="$CHANGED_SERVICES,bots"
+          fi
+          
+          # İlk virgülü kaldır
+          CHANGED_SERVICES=${CHANGED_SERVICES#,}
+          
+          if [ -n "$CHANGED_SERVICES" ]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
+            echo "🚀 Deploy edilecek servisler: $CHANGED_SERVICES"
+          else
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "changed_services=" >> $GITHUB_OUTPUT
+            echo "⚠️  Deploy gerektiren değişiklik yok"
+          fi
+
+  # --------------------
+  # Backend (Go) Deploy
+  # --------------------
+  deploy-backend:
+    name: 🐹 Backend Deploy
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.should_deploy == 'true' && contains(needs.validate.outputs.changed_services, 'backend')
+    environment: production
+    timeout-minutes: 25
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+
+      - name: 🐹 Go Kur
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: ./backend/go.sum
+
+      - name: 🧪 Go Test
+        timeout-minutes: 5
+        run: |
+          cd backend
+          go test -race -coverprofile=coverage.out -covermode=atomic ./...
+
+      - name: 🏗️ Go Build
+        timeout-minutes: 3
+        run: |
+          cd backend
+          CGO_ENABLED=0 go build -ldflags="-s -w" -o tayank-backend ./cmd/server
+
+      - name: 🔒 Güvenlik Taraması
+        timeout-minutes: 5
+        run: |
+          cd backend
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          gosec ./...
+
+      - name: 📦 Backend Deploy
+        timeout-minutes: 10
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          DEPLOY_TOKEN: ${{ secrets.BACKEND_DEPLOY_TOKEN }}
+        run: |
+          echo "🚀 Backend production'a deploy ediliyor..."
+          if [ -n "$DEPLOY_TOKEN" ] && [ -n "$KUBECONFIG" ]; then
+            # Kubernetes deploy
+            kubectl set image deployment/tayank-backend \
+              tayank-backend=ghcr.io/tayank-inc/backend:${{ github.sha }} \
+              -n tayank-production
+            
+            kubectl rollout status deployment/tayank-backend -n tayank-production --timeout=300s
+            echo "✅ Backend başarıyla deploy edildi"
+          else
+            echo "⚠️  Deploy token veya KUBECONFIG bulunamadı, gerçek deploy atlanıyor"
+          fi
+
+  # --------------------
+  # Frontend (Bun/Next.js) Deploy
+  # --------------------
+  deploy-frontend:
+    name: 🌐 Frontend Deploy
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.should_deploy == 'true' && contains(needs.validate.outputs.changed_services, 'frontend')
+    environment: production
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+
+      - name: 📦 Bun Kur
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: 📦 Bağımlılıkları İndir
+        timeout-minutes: 3
+        run: bun install --frozen-lockfile
+        working-directory: ./frontend
+
+      - name: 🔍 TypeScript Kontrolü
+        timeout-minutes: 2
+        run: bun run type-check
+        working-directory: ./frontend
+
+      - name: 🧪 Test
+        timeout-minutes: 3
+        run: bun run test
+        working-directory: ./frontend
+
+      - name: 🏗️ Build
+        timeout-minutes: 5
+        run: bun run build
+        working-directory: ./frontend
+
+      - name: 🌐 Frontend Deploy
+        timeout-minutes: 5
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "🚀 Frontend production'a deploy ediliyor..."
+          if [ -n "$VERCEL_TOKEN" ]; then
+            # Vercel deploy
+            npx vercel --prod --token=$VERCEL_TOKEN --confirm
+            echo "✅ Frontend başarıyla deploy edildi"
+          else
+            echo "⚠️  Vercel token bulunamadı, gerçek deploy atlanıyor"
+          fi
+        working-directory: ./frontend
+
+  # --------------------
+  # Mobile (Flutter) Deploy
+  # --------------------
+  deploy-mobile:
+    name: 📱 Mobil Build
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.should_deploy == 'true' && contains(needs.validate.outputs.changed_services, 'mobile')
+    environment: production
+    timeout-minutes: 45
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+
+      - name: 📱 Flutter Kur
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-key: flutter-app-${{ hashFiles('**/pubspec.lock') }}
+          cache-path: ./mobile/.dart_tool
+
+      - name: 📦 Paketleri Getir
+        timeout-minutes: 5
+        run: flutter pub get
+        working-directory: ./mobile
+
+      - name: 🧪 Test
+        timeout-minutes: 5
+        run: flutter test
+        working-directory: ./mobile
+
+      - name: 🏗️ Android APK Build
+        timeout-minutes: 15
+        run: flutter build apk --release --split-per-abi
+        working-directory: ./mobile
+
+      - name: 🏗️ iOS Build
+        timeout-minutes: 20
+        run: flutter build ios --release --no-codesign
+        working-directory: ./mobile
+
+      - name: 📤 Store Hazırlık
+        timeout-minutes: 5
+        env:
+          DEPLOY_TOKEN: ${{ secrets.MOBILE_DEPLOY_TOKEN }}
+        run: |
+          echo "📱 Mobil uygulama store için hazırlanıyor..."
+          if [ -n "$DEPLOY_TOKEN" ]; then
+            # App Store, Google Play deploy hazırlığı
+            echo "Store deploy hazırlığı yapılıyor..."
+            echo "✅ Mobil build'ler başarıyla oluşturuldu"
+          else
+            echo "⚠️  Deploy token bulunamadı, store upload atlanıyor"
+          fi
+        working-directory: ./mobile
+
+  # --------------------
+  # Bots (Python/Node.js) Deploy
+  # --------------------
+  deploy-bots:
+    name: 🤖 Botları Deploy Et
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.should_deploy == 'true' && contains(needs.validate.outputs.changed_services, 'bots')
+    environment: production
+    timeout-minutes: 15
+    
+    strategy:
+      matrix:
+        bot-type: [python, node]
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+
+      - name: 🤖 Bot Deploy - ${{ matrix.bot-type }}
+        timeout-minutes: 10
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          DEPLOY_TOKEN: ${{ secrets.BOTS_DEPLOY_TOKEN }}
+        run: |
+          echo "🚀 ${{ matrix.bot-type }} botları deploy ediliyor..."
+          if [ -n "$DEPLOY_TOKEN" ] && [ -n "$KUBECONFIG" ]; then
+            kubectl set image deployment/tayank-bot-${{ matrix.bot-type }} \
+              tayank-bot-${{ matrix.bot-type }}=ghcr.io/tayank-inc/bots-${{ matrix.bot-type }}:${{ github.sha }} \
+              -n tayank-production
+            
+            kubectl rollout status deployment/tayank-bot-${{ matrix.bot-type }} -n tayank-production --timeout=180s
+            echo "✅ ${{ matrix.bot-type }} botları başarıyla deploy edildi"
+          else
+            echo "⚠️  Deploy token veya KUBECONFIG bulunamadı, gerçek deploy atlanıyor"
+          fi
+
+  # --------------------
+  # Database Migration
+  # --------------------
+  database-migration:
+    name: 🗄️ Database Migration
+    runs-on: ubuntu-latest
+    needs: [validate, deploy-backend]
+    if: needs.validate.outputs.should_deploy == 'true' && contains(needs.validate.outputs.changed_services, 'backend')
+    environment: production
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Kodu Çek
+        uses: actions/checkout@v4
+
+      - name: 🐹 Go Kur
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: 🗄️ Migration Çalıştır
+        timeout-minutes: 8
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          cd backend
+          go run cmd/migrate/main.go
+          echo "✅ Database migration başarıyla tamamlandı"
+
+      - name: ✅ Migration Kontrolü
+        timeout-minutes: 3
+        run: |
+          curl -f https://api.tayank.com/health/db || exit 1
+          echo "✅ Database health check başarılı"
+
+  # --------------------
+  # Smoke Tests
+  # --------------------
+  smoke-tests:
+    name: 🧪 Smoke Testler
+    runs-on: ubuntu-latest
+    needs: [deploy-backend, deploy-frontend, deploy-bots]
+    if: always() && needs.validate.outputs.should_deploy == 'true'
+    environment: production
+    timeout-minutes: 10
+    
+    steps:
+      - name: 🧪 API Testleri
+        timeout-minutes: 3
+        run: |
+          echo "🧪 API servisleri test ediliyor..."
+          curl -f https://api.tayank.com/health || exit 1
+          curl -f https://api.tayank.com/v1/status || exit 1
+          echo "✅ API testleri başarılı"
+
+      - name: 🧪 Frontend Testleri
+        timeout-minutes: 3
+        run: |
+          echo "🧪 Frontend servisleri test ediliyor..."
+          curl -f https://tayank.com/ || exit 1
+          curl -f https://tayank.com/api/health || exit 1
+          echo "✅ Frontend testleri başarılı"
+
+      - name: 🧪 Bot Testleri
+        timeout-minutes: 3
+        run: |
+          echo "🧪 Bot servisleri test ediliyor..."
+          curl -f https://bots.tayank.com/health || exit 1
+          echo "✅ Bot testleri başarılı"
+
+  # --------------------
+  # Notify & Summary
+  # --------------------
+  notify:
+    name: 📢 Deploy Özeti
+    runs-on: ubuntu-latest
+    needs: 
+      - validate
+      - deploy-backend
+      - deploy-frontend
+      - deploy-mobile
+      - deploy-bots
+      - database-migration
+      - smoke-tests
+    if: always()
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📋 Deploy Durumu Özeti
+        timeout-minutes: 3
+        run: |
+          echo "## 🚀 Tayank Production Deploy Sonuçları" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Servis | Durum | Süre |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔍 Validasyon | ${{ needs.validate.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐹 Backend | ${{ needs.deploy-backend.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌐 Frontend | ${{ needs.deploy-frontend.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📱 Mobil | ${{ needs.deploy-mobile.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🤖 Botlar | ${{ needs.deploy-bots.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🗄️ Database Migration | ${{ needs.database-migration.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Smoke Testler | ${{ needs.smoke-tests.result }} | - |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Tetiklendiği için:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Değişen Servisler:** ${{ needs.validate.outputs.changed_services }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ **Deploy Zamanı:** $(date +'%d.%m.%Y %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+          echo "⏱️ **Toplam Süre:** $(( ( $(date +%s) - ${{ github.run_started_at }} ) / 60 )) dakika" >> $GITHUB_STEP_SUMMARY

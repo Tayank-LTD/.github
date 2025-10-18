@@ -1,0 +1,223 @@
+# Release Drafter Konfigürasyonu
+# Otomatik sürüm notları oluşturmak için ayarlar
+
+# Şablon adı
+name-template: 'v$RESOLVED_VERSION 🌟'
+tag-template: 'v$RESOLVED_VERSION'
+
+# Kategori şablonu
+categories:
+  - title: '🚀 Yeni Özellikler'
+    labels:
+      - 'type: feature'
+      - 'feat'
+    collapse-after: 5
+
+  - title: '🐛 Hata Düzeltmeleri'
+    labels:
+      - 'type: bug'
+      - 'fix'
+      - 'bug'
+    collapse-after: 5
+
+  - title: '🛠️ İyileştirmeler'
+    labels:
+      - 'type: improvement'
+      - 'improvement'
+      - 'enhancement'
+    collapse-after: 3
+
+  - title: '🔒 Güvenlik Güncellemeleri'
+    labels:
+      - 'type: security'
+      - 'security'
+    collapse-after: 1
+
+  - title: '⚡ Performans İyileştirmeleri'
+    labels:
+      - 'type: performance'
+      - 'perf'
+    collapse-after: 2
+
+  - title: '📚 Dokümantasyon'
+    labels:
+      - 'type: documentation'
+      - 'docs'
+    collapse-after: 3
+
+  - title: '♻️ Refactoring'
+    labels:
+      - 'type: refactor'
+      - 'refactor'
+    collapse-after: 3
+
+  - title: '🔧 Altyapı Değişiklikleri'
+    labels:
+      - 'type: chore'
+      - 'chore'
+      - 'build'
+      - 'ci'
+    collapse-after: 3
+
+  - title: '🧪 Test Güncellemeleri'
+    labels:
+      - 'type: test'
+      - 'test'
+    collapse-after: 2
+
+  - title: '🎨 Stil Değişiklikleri'
+    labels:
+      - 'type: style'
+      - 'style'
+    collapse-after: 2
+
+# Değişiklik şablonu
+change-template: '- $TITLE #$NUMBER (@$AUTHOR)'
+change-title-escapes: '\<*_&'
+
+# Versiyon artırma kuralları
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'breaking change'
+  minor:
+    labels:
+      - 'minor'
+      - 'type: feature'
+  patch:
+    labels:
+      - 'patch'
+      - 'type: bug'
+      - 'type: improvement'
+      - 'type: performance'
+      - 'dependencies'
+
+# Etiket eşleştirme
+label-alias:
+  - label: 'breaking change'
+    name: '💥 Breaking Changes'
+
+  - label: 'deprecation'
+    name: '⚠️ Kullanımdan Kaldırılanlar'
+
+  - label: 'dependencies'
+    name: '📦 Bağımlılık Güncellemeleri'
+
+# Şablon değişkenleri
+template: |
+  ## 🎯 Sürüm Detayları
+
+  $CHANGES
+
+  ## 👥 Katkıda Bulunanlar
+
+  Bu sürümde katkıda bulunanlar:
+
+  $CONTRIBUTORS
+
+  ## 📊 Teknik Detaylar
+
+  **Sürüm Numarası:** $RESOLVED_VERSION  
+  **Yayın Tarihi:** $DATE  
+  **Önceki Sürüm:** $PREVIOUS_TAG  
+
+  ## 🔧 Kurulum ve Güncelleme
+
+  ```bash
+  # Yeni kurulum
+  git clone https://github.com/Tayank-LTD/tayank.git
+  cd tayank
+  git checkout v$RESOLVED_VERSION
+
+  # Mevcut kurulumu güncelleme
+  git fetch --tags
+  git checkout v$RESOLVED_VERSION
+  ```
+
+  ## 📈 Değişiklik Özeti
+
+  - **Toplam Değişiklik:** $CHANGE_COUNT
+  - **Yeni Özellikler:** $FEATURES_COUNT
+  - **Hata Düzeltmeleri:** $BUGS_COUNT
+  - **Katkıda Bulunanlar:** $CONTRIBUTORS_COUNT
+
+  ## 🚨 Breaking Changes
+
+  $BREAKING_CHANGES
+
+  ## 📝 Notlar
+
+  $NOTES
+
+# Özel bölümler
+sections:
+  - title: '🌐 Çoklu Platform Güncellemeleri'
+    labels:
+      - 'component: backend'
+      - 'component: frontend'
+      - 'component: mobile'
+    body: |
+      ### Platform Bazlı Değişiklikler
+
+      $CHANGES
+
+  - title: '🤖 Bot Güncellemeleri'
+    labels:
+      - 'component: bots'
+    body: |
+      ### Bot İyileştirmeleri
+
+      $CHANGES
+
+# Dışlamalar
+exclude-labels:
+  - 'skip-changelog'
+  - 'invalid'
+  - 'wontfix'
+  - 'duplicate'
+
+# Kategori sınırlamaları
+category-template: '### $TITLE\n$CHANGES'
+
+# Katkıda bulunanlar formatı
+contributors-template: |
+  ### 🎖️ Kod Katkısı
+  $contributors
+
+  ### 🔍 Test ve QA
+  <!-- Test katkıları için özel bölüm -->
+
+  ### 📚 Dokümantasyon
+  <!-- Dokümantasyon katkıları için özel bölüm -->
+
+# Önceden tanımlı değişkenler
+replacers:
+  - search: '/(feat|fix|docs|style|refactor|perf|test|build|ci|chore)\(([^)]+)\):/'
+    replace: ''
+
+# Otomatik etiketleme
+autolabeler:
+  - label: 'type: feature'
+    branch:
+      - '/^feat/'
+      - '/^feature/'
+
+  - label: 'type: bug'
+    branch:
+      - '/^fix/'
+      - '/^bug/'
+
+  - label: 'type: improvement'
+    branch:
+      - '/^improve/'
+      - '/^enhancement/'
+
+# Özel formatlama
+format-tags:
+  - prefix: 'v'
+    format: '${major}.${minor}.${patch}'
+
+# Sürüm notları için özel ayarlar
+sort-by: 'merged_at'
+sort-direction: 'ascending'

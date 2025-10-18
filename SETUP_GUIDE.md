@@ -1,394 +1,429 @@
-# .github Repository Setup Guide
+## 🛠️ **.github Repository Kurulum Rehberi**
 
-Step-by-step guide to set up this organization-wide repository.
+Bu organizasyon geneli repository'sini kurmak için adım adım kılavuz.
 
-## 📋 Prerequisites
+## 📋 Ön Gereksinimler
 
-- ✅ GitHub Organization created (`tayank-inc`)
-- ✅ Admin access to the organization
-- ✅ Basic Git knowledge
+- ✅ GitHub Organizasyonu oluşturuldu (`Tayank-LTD`)
+- ✅ Organizasyona admin erişimi
+- ✅ Temel Git bilgisi
 
-## 🚀 Initial Setup
+## 🚀 Başlangıç Kurulumu
 
-### Step 1: Create Repository
+### Adım 1: Repository Oluşturma
 
 ```bash
-# Via GitHub CLI
-gh repo create tayank-inc/.github --public
+# GitHub CLI ile
+gh repo create Tayank-LTD/.github --public
 
-# Or via Web UI:
-# 1. Go to https://github.com/organizations/tayank-inc/repositories/new
-# 2. Repository name: .github
-# 3. Description: Organization-wide files and templates
-# 4. Visibility: Public
-# 5. Click "Create repository"
+# Veya Web Arayüzü ile:
+# 1. https://github.com/organizations/Tayank-LTD/repositories/new adresine gidin
+# 2. Repository adı: .github
+# 3. Açıklama: Organizasyon geneli dosyalar ve şablonlar
+# 4. Görünürlük: Public
+# 5. "Create repository" butonuna tıklayın
 ```
 
-### Step 2: Clone Repository
+### Adım 2: Repository'yi Klonlama
 
 ```bash
-git clone https://github.com/tayank-inc/.github.git
+git clone https://github.com/Tayank-LTD/.github.git
 cd .github
 ```
 
-### Step 3: Create Folder Structure
+### Adım 3: Klasör Yapısını Oluşturma
 
 ```bash
-# Create all necessary folders
+# Gerekli tüm klasörleri oluşturun
 mkdir -p profile
 mkdir -p ISSUE_TEMPLATE
 mkdir -p workflows
 
-# Verify structure
+# Yapıyı doğrulayın
 tree
-# Should show:
+# Göstermesi gereken:
 # .github/
 # ├── profile/
 # ├── ISSUE_TEMPLATE/
 # └── workflows/
 ```
 
-## 📁 Adding Files
+## 📁 Dosya Ekleme
 
-### Method 1: Manual Creation (Recommended for Learning)
+### Yöntem 1: Manuel Oluşturma (Öğrenme için Önerilir)
 
-Create each file one by one:
+Dosyaları teker teker oluşturun:
 
 ```bash
-# 1. Profile README
+# 1. Profil README
 touch profile/README.md
-# Copy content from artifact
+# İçeriği artifact'ten kopyala
 
-# 2. Issue templates
+# 2. Issue şablonları
 touch ISSUE_TEMPLATE/bug_report.yml
 touch ISSUE_TEMPLATE/feature_request.yml
+touch ISSUE_TEMPLATE/improvement_request.yml
 touch ISSUE_TEMPLATE/config.yml
 
-# 3. PR template
+# 3. PR şablonu
 touch PULL_REQUEST_TEMPLATE.md
 
-# 4. Documentation files
+# 4. Dokümantasyon dosyaları
 touch CONTRIBUTING.md
 touch CODE_OF_CONDUCT.md
 touch SECURITY.md
 touch SUPPORT.md
+touch SETUP_GUIDE.md
 
-# 5. Other files
+# 5. Diğer dosyalar
 touch LICENSE
 touch README.md
 touch FOLDER_STRUCTURE.md
-touch SETUP_GUIDE.md
+touch CODEOWNERS
+touch dependabot.yml
+touch FUNDING.yml
+touch labels.yml
 
-# 6. Workflows
+# 6. Workflow'lar
+touch workflows/ci-lint.yml
 touch workflows/reusable-go-ci.yml
+touch workflows/reusable-bun-ci.yml
+touch workflows/reusable-flutter-ci.yml
+touch workflows/reusable-python-ci.yml
+touch workflows/reusable-security.yml
 ```
 
-### Method 2: Bulk Creation (Faster)
+### Yöntem 2: Toplu Oluşturma (Daha Hızlı)
 
-Use the provided script:
+Sağlanan script'i kullanın:
 
 ```bash
-# Create setup script
-cat > setup.sh << 'EOF'
+# Kurulum script'i oluştur
+cat > kurulum.sh << 'EOF'
 #!/bin/bash
 
-# Create folders
+# Klasörleri oluştur
 mkdir -p profile ISSUE_TEMPLATE workflows
 
-# Create all files
+# Tüm dosyaları oluştur
 touch profile/README.md
 touch ISSUE_TEMPLATE/bug_report.yml
 touch ISSUE_TEMPLATE/feature_request.yml
+touch ISSUE_TEMPLATE/improvement_request.yml
 touch ISSUE_TEMPLATE/config.yml
 touch PULL_REQUEST_TEMPLATE.md
 touch CONTRIBUTING.md
 touch CODE_OF_CONDUCT.md
 touch SECURITY.md
 touch SUPPORT.md
+touch SETUP_GUIDE.md
 touch LICENSE
 touch README.md
 touch FOLDER_STRUCTURE.md
-touch SETUP_GUIDE.md
+touch CODEOWNERS
+touch dependabot.yml
+touch FUNDING.yml
+touch labels.yml
+touch workflows/ci-lint.yml
 touch workflows/reusable-go-ci.yml
+touch workflows/reusable-bun-ci.yml
+touch workflows/reusable-flutter-ci.yml
+touch workflows/reusable-python-ci.yml
+touch workflows/reusable-security.yml
 
-echo "✅ All files created!"
+echo "✅ Tüm dosyalar oluşturuldu!"
 EOF
 
-chmod +x setup.sh
-./setup.sh
+chmod +x kurulum.sh
+./kurulum.sh
 ```
 
-### Method 3: Using Artifacts (Easiest)
+### Yöntem 3: Artifact Kullanma (En Kolay)
 
-1. Download all artifacts from this conversation
-2. Place files in correct folders:
+1. Bu konuşmadaki tüm artifact'leri indirin
+2. Dosyaları doğru klasörlere yerleştirin:
    ```
    profile/README.md
+   profile/metrics.svg
    ISSUE_TEMPLATE/bug_report.yml
    ISSUE_TEMPLATE/feature_request.yml
+   ISSUE_TEMPLATE/improvement_request.yml
    ISSUE_TEMPLATE/config.yml
    PULL_REQUEST_TEMPLATE.md
    CONTRIBUTING.md
    CODE_OF_CONDUCT.md
    SECURITY.md
    SUPPORT.md
+   SETUP_GUIDE.md
    LICENSE
    README.md
    FOLDER_STRUCTURE.md
-   SETUP_GUIDE.md
+   CODEOWNERS
+   dependabot.yml
+   FUNDING.yml
+   labels.yml
+   workflows/ci-lint.yml
    workflows/reusable-go-ci.yml
+   workflows/reusable-bun-ci.yml
+   workflows/reusable-flutter-ci.yml
+   workflows/reusable-python-ci.yml
+   workflows/reusable-security.yml
    ```
 
-## ✏️ Customization
+## ✏️ Özelleştirme
 
-### Essential Customizations
+### Temel Özelleştirmeler
 
-Before committing, update these placeholders:
+Commit'ten önce bu yer tutucuları güncelleyin:
 
-#### 1. Email Addresses
+#### 1. E-posta Adresleri
 
-**Files to update:**
-- `SECURITY.md` - security@tayank.com
-- `SUPPORT.md` - support@tayank.com, business@tayank.com, press@tayank.com
-- `CONTRIBUTING.md` - contribute@tayank.com
-- `CODE_OF_CONDUCT.md` - conduct@tayank.com
+**Güncellenecek dosyalar:**
+- `SECURITY.md` - guvenlik@tayank.com
+- `SUPPORT.md` - destek@tayank.com, isbirligi@tayank.com, basin@tayank.com
+- `CONTRIBUTING.md` - katki@tayank.com
+- `CODE_OF_CONDUCT.md` - davranis@tayank.com
 
-**Find & Replace:**
+**Bul & Değiştir:**
 ```bash
-# Replace with your actual emails
-find . -type f -exec sed -i 's/security@tayank.com/your-security-email@example.com/g' {} +
-find . -type f -exec sed -i 's/support@tayank.com/your-support-email@example.com/g' {} +
-# ... repeat for other emails
+# Gerçek e-postalarınızla değiştirin
+find . -type f -exec sed -i 's/guvenlik@tayank.com/gercek-guvenlik-email@ornek.com/g' {} +
+find . -type f -exec sed -i 's/destek@tayank.com/gercek-destek-email@ornek.com/g' {} +
+# ... diğer e-postalar için tekrarlayın
 ```
 
-#### 2. Links
+#### 2. Bağlantılar
 
-**Files to update:**
-- `profile/README.md` - All GitHub links
-- `SUPPORT.md` - Social media links
-- `CONTRIBUTING.md` - Documentation links
+**Güncellenecek dosyalar:**
+- `profile/README.md` - Tüm GitHub bağlantıları
+- `SUPPORT.md` - Sosyal medya bağlantıları
+- `CONTRIBUTING.md` - Dokümantasyon bağlantıları
 
-**Update these:**
-- `https://tayank.com` → Your website
-- `https://docs.tayank.com` → Your docs site
-- `https://twitter.com/tayankapp` → Your Twitter
+**Bunları güncelleyin:**
+- `https://tayank.com` → Web siteniz
+- `https://docs.tayank.com` → Doküman siteniz
 
-#### 3. Organization Name
+#### 3. Organizasyon Adı
 
-If you're not using "Tayank":
+Eğer "Tayank" kullanmıyorsanız:
 
 ```bash
-# Replace organization name
-find . -type f -exec sed -i 's/Tayank/YourName/g' {} +
-find . -type f -exec sed -i 's/tayank-inc/your-org/g' {} +
+# Organizasyon adını değiştir
+find . -type f -exec sed -i 's/Tayank/SizinAdiniz/g' {} +
+find . -type f -exec sed -i 's/Tayank-LTD/sizin-organizasyon/g' {} +
 ```
 
-#### 4. License
+#### 4. Lisans
 
-If not using MIT License:
+MIT Lisansı kullanmıyorsanız:
 
 ```bash
-# Replace LICENSE file with your preferred license
-# Examples:
+# LICENSE dosyasını tercih ettiğiniz lisansla değiştirin
+# Örnekler:
 # - Apache 2.0
 # - GPL v3
 # - BSD 3-Clause
 ```
 
-### Optional Customizations
+### Opsiyonel Özelleştirmeler
 
-#### Add Organization Logo
+#### Organizasyon Logosu Ekleme
 
 ```bash
-# Add logo to profile folder
+# Profile klasörüne logo ekleyin
 mkdir -p profile/assets
-# Place logo.png (200x200px recommended)
+# logo.png yerleştirin (200x200px önerilir)
 
-# Update profile/README.md to reference it:
-# <img src="https://raw.githubusercontent.com/your-org/.github/main/profile/assets/logo.png" ...>
+# profile/README.md'yi referans gösterecek şekilde güncelleyin:
+# <img src="https://raw.githubusercontent.com/sizin-organizasyon/.github/main/profile/assets/logo.png" ...>
 ```
 
-#### Add More Workflows
+#### Daha Fazla Workflow Ekleme
 
 ```bash
-# Add Node.js workflow
-touch workflows/reusable-node-ci.yml
-
-# Add Flutter workflow
-touch workflows/reusable-flutter-ci.yml
-
-# Add Docker build workflow
+# Ek workflow'lar ekleyin
+touch workflows/auto-assign.yml
+touch workflows/deploy-production.yml
+touch workflows/metrics.yml
+touch workflows/monorepo-ci.yml
 touch workflows/reusable-docker-build.yml
+touch workflows/reusable-node-ci.yml
 ```
 
 ## 📤 Commit & Push
 
-### Initial Commit
+### İlk Commit
 
 ```bash
-# Stage all files
+# Tüm dosyaları stage'le
 git add .
 
-# Commit
-git commit -m "Initial setup: organization-wide templates and docs
+# Commit oluştur
+git commit -m "İlk kurulum: organizasyon geneli şablonlar ve dokümanlar
 
-- Add profile README
-- Add issue templates (bug, feature)
-- Add PR template
-- Add contributing guide
-- Add code of conduct
-- Add security policy
-- Add support guide
-- Add reusable Go CI workflow
-- Add LICENSE (MIT)
+- Profil README ekle
+- Issue şablonları ekle (hata, özellik, iyileştirme)
+- PR şablonu ekle
+- Katkı rehberi ekle
+- Davranış kuralları ekle
+- Güvenlik politikası ekle
+- Destek rehberi ekle
+- Kurulum rehberi ekle
+- Yeniden kullanılabilir workflow'lar ekle (Go, Bun, Flutter, Python)
+- CODEOWNERS ekle
+- Dependabot konfigürasyonu ekle
+- Finansman dosyası ekle
+- Etiket konfigürasyonu ekle
+- LICENSE ekle (MIT)
 "
 
-# Push to main
+# Main'e push'la
 git push origin main
 ```
 
-### Branch Protection (Recommended)
+### Branch Koruması (Önerilir)
 
 ```bash
-# Via GitHub CLI
-gh api repos/tayank-inc/.github/branches/main/protection \
+# GitHub CLI ile
+gh api repos/Tayank-LTD/.github/branches/main/protection \
   --method PUT \
   --field required_status_checks='{"strict":true,"contexts":[]}' \
   --field enforce_admins=true \
   --field required_pull_request_reviews='{"required_approving_review_count":1}' \
   --field restrictions=null
 
-# Or via Web UI:
-# Settings → Branches → Add rule → main
-# ☑ Require pull request before merging
-# ☑ Require approvals: 1
+# Veya Web Arayüzü ile:
+# Ayarlar → Branches → Kural ekle → main
+# ☑ Merge'den önce pull request gerektir
+# ☑ Onay gerektir: 1
 ```
 
-## ✅ Verification
+## ✅ Doğrulama
 
-### Test Templates
+### Şablonları Test Etme
 
-#### 1. Test Issue Templates
+#### 1. Issue Şablonlarını Test Edin
 
-Go to any repository in your organization:
+Organizasyonunuzdaki herhangi bir repository'ye gidin:
 
 ```
-https://github.com/tayank-inc/ANY-REPO/issues/new/choose
+https://github.com/Tayank-LTD/HERHANGI-BIR-REPO/issues/new/choose
 ```
 
-You should see:
-- 🐛 Bug Report
-- ✨ Feature Request
+Görmeniz gerekenler:
+- 🐛 Hata Bildirimi
+- ✨ Özellik Talebi
+- 🛠️ İyileştirme Talebi
 
-#### 2. Test PR Template
+#### 2. PR Şablonunu Test Edin
 
-Create a test PR in any repo. The template should auto-populate.
+Herhangi bir repo'da test PR'ı oluşturun. Şablon otomatik olarak doldurulmalı.
 
-#### 3. Test Profile Page
+#### 3. Profil Sayfasını Test Edin
 
-Visit:
+Ziyaret edin:
 ```
-https://github.com/tayank-inc
+https://github.com/Tayank-LTD
 ```
 
-Your profile README should be visible.
+Profil README'niz görünür olmalı.
 
-### Verify Workflow
+### Workflow'u Doğrulayın
 
-Test the reusable workflow in a service repo:
+Bir servis repo'sunda yeniden kullanılabilir workflow'u test edin:
 
 ```yaml
-# service-repo/.github/workflows/ci.yml
+# servis-repo/.github/workflows/ci.yml
 name: CI
 
 on: [push, pull_request]
 
 jobs:
   test:
-    uses: tayank-inc/.github/.github/workflows/reusable-go-ci.yml@main
+    uses: Tayank-LTD/.github/.github/workflows/reusable-go-ci.yml@main
     with:
       go-version: '1.21'
       coverage-threshold: 80
 ```
 
-## 🔄 Maintenance
+## 🔄 Bakım
 
-### Regular Updates
+### Düzenli Güncellemeler
 
-**Monthly:**
-- [ ] Review and update links (check for 404s)
-- [ ] Update contact emails if changed
-- [ ] Review security policy
+**Aylık:**
+- [ ] Bağlantıları gözden geçirin ve güncelleyin (404'leri kontrol edin)
+- [ ] E-posta adresleri değiştiyse güncelleyin
+- [ ] Güvenlik politikasını gözden geçirin
 
-**Quarterly:**
-- [ ] Update dependencies in workflows
-- [ ] Review and improve templates based on feedback
-- [ ] Add new resources/links
+**Üç Aylık:**
+- [ ] Workflow'lardaki bağımlılıkları güncelleyin
+- [ ] Geri bildirimlere dayalı olarak şablonları gözden geçirin ve iyileştirin
+- [ ] Yeni kaynaklar/bağlantılar ekleyin
 
-**Yearly:**
-- [ ] Update copyright year in LICENSE
-- [ ] Review and update contribution guidelines
-- [ ] Update roadmap in profile README
+**Yıllık:**
+- [ ] LICENSE'taki telif hakkı yılını güncelleyin
+- [ ] Katkı kurallarını gözden geçirin ve güncelleyin
+- [ ] Profil README'deki yol haritasını güncelleyin
 
-### Monitoring
+### İzleme
 
-Track template usage:
+Şablon kullanımını takip edin:
 
 ```bash
-# See which repos are using templates
-gh api orgs/tayank-inc/repos --paginate \
+# Hangi repo'ların şablon kullandığını görün
+gh api orgs/Tayank-LTD/repos --paginate \
   | jq -r '.[] | select(.has_issues == true) | .name'
 
-# Check workflow usage
-gh api /orgs/tayank-inc/actions/secrets
+# Workflow kullanımını kontrol edin
+gh api /orgs/Tayank-LTD/actions/secrets
 ```
 
-## 🐛 Troubleshooting
+## 🐛 Sorun Giderme
 
-### Templates Not Showing
+### Şablonlar Görünmüyor
 
-**Problem:** Issue templates not appearing in repositories
+**Problem:** Issue şablonları repository'lerde görünmüyor
 
-**Solutions:**
-1. Check repository visibility (templates apply to public repos)
-2. Clear browser cache
-3. Wait 5-10 minutes (GitHub cache)
-4. Verify file paths are correct
+**Çözümler:**
+1. Repository görünürlüğünü kontrol edin (şablonlar public repo'lara uygulanır)
+2. Tarayıcı önbelleğini temizleyin
+3. 5-10 dakika bekleyin (GitHub önbelleği)
+4. Dosya yollarının doğru olduğunu doğrulayın
 
-### Profile Not Visible
+### Profil Görünmüyor
 
-**Problem:** Organization profile README not showing
+**Problem:** Organizasyon profil README'si görünmüyor
 
-**Solutions:**
-1. Ensure `.github` repo is public
-2. File must be at `profile/README.md` (exact path)
-3. Clear cache and refresh
+**Çözümler:**
+1. `.github` repo'sunun public olduğundan emin olun
+2. Dosya `profile/README.md` yolunda olmalı (tam yol)
+3. Önbelleği temizleyin ve yenileyin
 
-### Workflows Not Working
+### Workflow'lar Çalışmıyor
 
-**Problem:** Reusable workflows not found
+**Problem:** Yeniden kullanılabilir workflow'lar bulunamıyor
 
-**Solutions:**
-1. Check workflow file path: `.github/workflows/name.yml`
-2. Ensure `.github` repo is public (or same visibility)
-3. Verify workflow syntax (YAML validation)
-4. Check workflow permissions in organization settings
+**Çözümler:**
+1. Workflow dosya yolunu kontrol edin: `.github/workflows/isim.yml`
+2. `.github` repo'sunun public olduğundan emin olun (veya aynı görünürlük)
+3. Workflow sözdizimini doğrulayın (YAML doğrulama)
+4. Organizasyon ayarlarındaki workflow izinlerini kontrol edin
 
-## 📚 Next Steps
+## 📚 Sonraki Adımlar
 
-After setup:
+Kurulumdan sonra:
 
-1. **Create Service Repos** - Start creating actual service repositories
-2. **Test Integration** - Verify templates work in real repos
-3. **Team Training** - Teach team how to use templates
-4. **Documentation** - Link to this repo from main project docs
-5. **Iterate** - Improve based on feedback
+1. **Servis Repo'ları Oluşturun** - Gerçek servis repository'leri oluşturmaya başlayın
+2. **Entegrasyonu Test Edin** - Şablonların gerçek repo'larda çalıştığını doğrulayın
+3. **Takım Eğitimi** - Takıma şablonları nasıl kullanacaklarını öğretin
+4. **Dokümantasyon** - Ana proje dokümanlarından bu repo'ya bağlantı verin
+5. **İterasyon** - Geri bildirime dayalı olarak iyileştirin
 
-## 📞 Help & Support
+## 📞 Yardım & Destek
 
-- 📖 [GitHub Docs](https://docs.github.com/en/communities)
-- 📧 Email: devops@tayank.com
+- 📖 [GitHub Dokümanları](https://docs.github.com/en/communities)
+- 📧 E-posta: devops@tayank.com
 
 ---
 
-**Setup complete?** Star this repo and start building! 🚀
+**Kurulum tamamlandı mı?** Bu repo'yu yıldızlayın ve inşa etmeye başlayın! 🚀

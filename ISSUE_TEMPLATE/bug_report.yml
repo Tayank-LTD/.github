@@ -1,107 +1,122 @@
-name: 🐛 Bug Report
-description: Report a bug or unexpected behavior
-title: "[Bug]: "
-labels: ["type: bug", "status: needs-triage"]
+name: 🐛 Hata Bildirimi
+description: Bir hata veya beklenmeyen davranışı bildirin
+title: "[HATA]: "
+labels: ["bug", "needs-triage", "needs-investigation"]
 assignees: []
 
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report a bug! Please fill out the form below.
+        Hata bildirdiğiniz için teşekkürler! Lütfen aşağıdaki formu doldurun.
         
-        **Before submitting:**
-        - Search existing issues to avoid duplicates
-        - Make sure you're using the latest version
+        **Göndermeden önce:**
+        - Var olan issue'ları kontrol edin, tekrar bildirim yapmamaya özen gösterin
+        - En güncel sürümü kullandığınızdan emin olun
 
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: A clear and concise description of what the bug is.
-      placeholder: "When I try to send a message in #general, it doesn't appear..."
+      label: Hata Açıklaması
+      description: Hatanın ne olduğunu açık ve net bir şekilde açıklayın.
+      placeholder: "Örneğin: #genel kanalına mesaj gönderdiğimde görünmüyor..."
     validations:
       required: true
 
   - type: textarea
     id: steps
     attributes:
-      label: Steps to Reproduce
-      description: How can we reproduce this bug?
+      label: Hatanın Tekrarlanma Adımları
+      description: Bu hatayı tekrarlamak için gerekli adımları adım adım yazın.
       placeholder: |
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll down to '...'
-        4. See error
+        1. '...' sayfasına gidin
+        2. '...' butonuna tıklayın
+        3. Aşağı kaydırın ve hatayı görün
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-      placeholder: "The message should appear in the channel..."
+      label: Beklenen Davranış
+      description: Hatanın gerçekleşmemesi durumunda ne olmasını bekliyordunuz?
+      placeholder: "Mesaj kanal üzerinde görünmeliydi..."
     validations:
       required: true
 
   - type: textarea
     id: actual
     attributes:
-      label: Actual Behavior
-      description: What actually happened?
-      placeholder: "The message doesn't appear and I see an error..."
+      label: Gerçekleşen Davranış
+      description: Hata sonucunda ne oldu?
+      placeholder: "Mesaj görünmüyor ve bir hata mesajı alıyorum..."
     validations:
       required: true
 
   - type: dropdown
     id: component
     attributes:
-      label: Component
-      description: Which part of Tayank is affected?
+      label: Etkilenen Bileşen
+      description: Hangi bölümde sorun yaşandı?
       options:
-        - Web App
-        - Mobile App (iOS)
-        - Mobile App (Android)
-        - Desktop App
-        - API
-        - Voice/Video
-        - Authentication
-        - Messaging
-        - File Upload
-        - Search
-        - Notifications
-        - Other
+        - Web Uygulaması (Next.js)
+        - Mobil Uygulama (Flutter iOS)
+        - Mobil Uygulama (Flutter Android)
+        - Masaüstü Uygulaması (Go)
+        - Backend API (Go)
+        - Real-time Servis (WebSocket)
+        - Bot Framework (Python)
+        - Bot Framework (Node.js)
+        - Database (PostgreSQL/Redis)
+        - Kimlik Doğrulama (Auth)
+        - Mesajlaşma
+        - Dosya Yükleme (Storage)
+        - Ses/Video
+        - Arama
+        - Bildirimler
+        - Diğer
     validations:
       required: true
 
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
-      description: How severe is this bug?
+      label: Hatanın Önemi
+      description: Bu hata ne kadar kritik?
       options:
-        - Critical (App crashes, data loss, security issue)
-        - High (Major feature broken)
-        - Medium (Feature partially broken)
-        - Low (Minor inconvenience)
+        - Kritik (Uygulama çöküyor, veri kaybı, güvenlik sorunu)
+        - Yüksek (Önemli özellik çalışmıyor)
+        - Orta (Özellik kısmen çalışıyor)
+        - Düşük (Küçük rahatsızlık)
     validations:
       required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Öncelik
+      description: Hatanın aciliyeti nedir?
+      options:
+        - Acil
+        - Normal
+        - Düşük
+    validations:
+      required: false
 
   - type: input
     id: version
     attributes:
-      label: Version
-      description: What version of Tayank are you using?
-      placeholder: "v1.2.3 or commit hash"
+      label: Sürüm
+      description: Hangi Tayank sürümünü kullanıyorsunuz?
+      placeholder: "v1.2.3 veya commit hash"
     validations:
-      required: false
+      required: true  # Burayı true yaptım
 
   - type: dropdown
     id: platform
     attributes:
       label: Platform
-      description: What platform are you using?
+      description: Hangi platformda bu hatayı yaşıyorsunuz? (Web kullanıyorsanız tarayıcı sürümünü ekleyin)
       multiple: true
       options:
         - Web (Chrome)
@@ -117,41 +132,41 @@ body:
   - type: textarea
     id: environment
     attributes:
-      label: Environment Details
-      description: Any relevant details about your environment
+      label: Ortam Bilgileri
+      description: Hata ile ilgili çevresel bilgileri paylaşın (OS, tarayıcı vb.)
       placeholder: |
         - OS: Windows 11
-        - Browser: Chrome 120.0
-        - Screen Resolution: 1920x1080
-        - Network: WiFi
+        - Tarayıcı: Chrome 120.0
+        - Ekran Çözünürlüğü: 1920x1080
+        - Ağ: WiFi
       render: markdown
 
   - type: textarea
     id: logs
     attributes:
-      label: Relevant Logs/Screenshots
+      label: İlgili Loglar / Ekran Görüntüleri
       description: |
-        Please paste any relevant logs or add screenshots.
-        **Tip:** You can attach images by dragging and dropping.
+        Lütfen ilgili logları yapıştırın veya ekran görüntüsü ekleyin.
+        **İpucu:** Görselleri sürükleyip bırakabilirsiniz.
       placeholder: |
-        Paste logs here or attach screenshots
+        Logları buraya yapıştırın veya ekran görüntüsü ekleyin
       render: shell
 
   - type: textarea
     id: additional
     attributes:
-      label: Additional Context
-      description: Any other information that might be relevant
-      placeholder: "This only happens when..."
+      label: Ek Bilgiler
+      description: İlgili olabilecek diğer bilgileri paylaşın
+      placeholder: "Bu hata yalnızca ... durumunda gerçekleşiyor"
 
   - type: checkboxes
     id: terms
     attributes:
-      label: Checklist
+      label: Kontrol Listesi
       options:
-        - label: I have searched existing issues to avoid duplicates
+        - label: Var olan issue'ları kontrol ettim ve tekrar bildirmedim
           required: true
-        - label: I have provided all the information requested above
+        - label: Yukarıdaki tüm bilgileri eksiksiz sağladım
           required: true
-        - label: This issue is reproducible
+        - label: Bu hatayı yeniden oluşturabildiğimi doğruladım
           required: false

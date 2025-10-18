@@ -1,0 +1,233 @@
+name: ♻️ Reusable Metrics CI
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: "Directory of the project"
+        required: false
+        default: "."
+        type: string
+      language:
+        description: "Project language (node, python, go, flutter, bun)"
+        required: true
+        type: string
+      coverage-file:
+        description: "Path to coverage file if exists"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  collect-metrics:
+    name: 📈 Collect Metrics (${{ inputs.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        timeout-minutes: 2
+
+      - name: 🐍 Install Python & dependencies
+        timeout-minutes: 3
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip jq
+          pip3 install matplotlib pandas
+
+      # --------------------------
+      # Lines of Code (LOC)
+      - name: 📊 Collect LOC
+        id: loc
+        timeout-minutes: 2
+        run: |
+          set -e
+          
+          if [[ "${{ inputs.language }}" == "node" || "${{ inputs.language }}" == "bun" ]]; then
+            echo "🔍 Counting lines in JavaScript/TypeScript files..."
+            LOC=$(find . -type f \( -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx' \) -not -path './node_modules/*' -not -path './dist/*' -not -path './build/*' | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+          elif [[ "${{ inputs.language }}" == "python" ]]; then
+            echo "🔍 Counting lines in Python files..."
+            LOC=$(find . -type f -name '*.py' -not -path './venv/*' -not -path './.venv/*' -not -path './env/*' | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+          elif [[ "${{ inputs.language }}" == "go" ]]; then
+            echo "🔍 Counting lines in Go files..."
+            LOC=$(find . -type f -name '*.go' -not -path './vendor/*' | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+          elif [[ "${{ inputs.language }}" == "flutter" ]]; then
+            echo "🔍 Counting lines in Dart files..."
+            LOC=$(find . -type f -name '*.dart' -not -path './build/*' -not -path './.dart_tool/*' | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+          else
+            echo "⚠️  Unknown language: ${{ inputs.language }}"
+            LOC=0
+          fi
+          
+          # Ensure LOC is a number
+          LOC=${LOC:-0}
+          echo "📏 Total LOC: $LOC"
+          echo "LOC=$LOC" >> $GITHUB_OUTPUT
+
+      # --------------------------
+      # Coverage (optional)
+      - name: 🎯 Collect Coverage
+        id: coverage
+        timeout-minutes: 2
+        run: |
+          set -e
+          COVERAGE=0
+          
+          if [[ -n "${{ inputs.coverage-file }}" && -f "${{ inputs.coverage-file }}" ]]; then
+            echo "🔍 Analyzing coverage file: ${{ inputs.coverage-file }}"
+            
+            if [[ "${{ inputs.coverage-file }}" == *".json" ]]; then
+              # Try different possible JSON coverage formats
+              if jq -e '.total.lines.pct' "${{ inputs.coverage-file }}" > /dev/null 2>&1; then
+                COVERAGE=$(jq -r '.total.lines.pct' "${{ inputs.coverage-file }}")
+              elif jq -e '.coverage' "${{ inputs.coverage-file }}" > /dev/null 2>&1; then
+                COVERAGE=$(jq -r '.coverage' "${{ inputs.coverage-file }}")
+              elif jq -e '.summary.percent_covered' "${{ inputs.coverage-file }}" > /dev/null 2>&1; then
+                COVERAGE=$(jq -r '.summary.percent_covered' "${{ inputs.coverage-file }}")
+              else
+                echo "⚠️  Unknown JSON coverage format"
+              fi
+            elif [[ "${{ inputs.coverage-file }}" == *".xml" ]]; then
+              # For XML coverage files (like cobertura)
+              COVERAGE=$(grep -oP 'line-rate="\K[0-9.]+' "${{ inputs.coverage-file }}" | head -1 | awk '{print $1 * 100}')
+            elif [[ "${{ inputs.coverage-file }}" == *".lcov" || "${{ inputs.coverage-file }}" == *".info" ]]; then
+              # For LCOV files
+              COVERAGE=$(lcov --summary "${{ inputs.coverage-file }}" 2>/dev/null | grep 'lines\.\.\.' | grep -oP '[0-9.]+%' | sed 's/%//' || echo "0")
+            fi
+          else
+            echo "ℹ️  No coverage file provided or file not found"
+          fi
+          
+          # Ensure coverage is a number between 0-100
+          COVERAGE=${COVERAGE:-0}
+          COVERAGE=$(echo "$COVERAGE" | awk '{if ($1 > 100) print 100; else if ($1 < 0) print 0; else print $1}')
+          echo "🎯 Coverage: $COVERAGE%"
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_OUTPUT
+
+      # --------------------------
+      # File Count
+      - name: 📁 Count Files
+        id: file_count
+        timeout-minutes: 2
+        run: |
+          set -e
+          
+          if [[ "${{ inputs.language }}" == "node" || "${{ inputs.language }}" == "bun" ]]; then
+            FILE_COUNT=$(find . -type f \( -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx' \) -not -path './node_modules/*' -not -path './dist/*' -not -path './build/*' | wc -l)
+          elif [[ "${{ inputs.language }}" == "python" ]]; then
+            FILE_COUNT=$(find . -type f -name '*.py' -not -path './venv/*' -not -path './.venv/*' -not -path './env/*' | wc -l)
+          elif [[ "${{ inputs.language }}" == "go" ]]; then
+            FILE_COUNT=$(find . -type f -name '*.go' -not -path './vendor/*' | wc -l)
+          elif [[ "${{ inputs.language }}" == "flutter" ]]; then
+            FILE_COUNT=$(find . -type f -name '*.dart' -not -path './build/*' -not -path './.dart_tool/*' | wc -l)
+          else
+            FILE_COUNT=0
+          fi
+          
+          echo "📁 File Count: $FILE_COUNT"
+          echo "FILE_COUNT=$FILE_COUNT" >> $GITHUB_OUTPUT
+
+      # --------------------------
+      # Generate SVG Graph
+      - name: 📊 Generate SVG Metrics Graph
+        timeout-minutes: 3
+        run: |
+          set -e
+          mkdir -p profile
+          
+          python3 - <<EOF
+import matplotlib.pyplot as plt
+import numpy as np
+
+try:
+    loc = int("${{ steps.loc.outputs.LOC }}")
+    coverage = float("${{ steps.coverage.outputs.COVERAGE }}")
+    file_count = int("${{ steps.file_count.outputs.FILE_COUNT }}")
+    
+    # Create figure with subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    # Left plot: LOC and File Count
+    metrics = ['Lines of Code', 'File Count']
+    values = [loc, file_count]
+    colors = ['#1f77b4', '#2ca02c']
+    
+    bars1 = ax1.bar(metrics, values, color=colors, alpha=0.7)
+    ax1.set_ylabel('Count')
+    ax1.set_title('Code Metrics')
+    ax1.grid(True, alpha=0.3)
+    
+    # Add value labels on bars
+    for bar, value in zip(bars1, values):
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height + (max(values) * 0.01),
+                f'{value:,}', ha='center', va='bottom', fontweight='bold')
+    
+    # Right plot: Coverage
+    ax2.bar(['Coverage'], [coverage], color='#ff7f0e', alpha=0.7)
+    ax2.set_ylabel('Percentage (%)')
+    ax2.set_title('Test Coverage')
+    ax2.set_ylim(0, 100)
+    ax2.grid(True, alpha=0.3)
+    
+    # Add coverage percentage
+    ax2.text(0, coverage + 2, f'{coverage:.1f}%', 
+             ha='center', va='bottom', fontweight='bold', fontsize=12)
+    
+    # Overall title
+    plt.suptitle('Project Metrics Summary - ${{ inputs.language }}', fontsize=14, fontweight='bold')
+    plt.tight_layout()
+    plt.savefig('profile/metrics.svg', format='svg', bbox_inches='tight')
+    print("✅ SVG metrics graph generated successfully")
+    
+except Exception as e:
+    print(f"❌ Error generating graph: {e}")
+    # Create a simple error graph
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.text(0.5, 0.5, 'Error generating metrics', 
+            ha='center', va='center', fontsize=16, color='red')
+    ax.set_title('Metrics Generation Failed')
+    plt.savefig('profile/metrics.svg', format='svg')
+    exit(1)
+EOF
+
+      # --------------------------
+      # Generate Metrics Report
+      - name: 📝 Generate Metrics Report
+        timeout-minutes: 2
+        run: |
+          set -e
+          echo "## 📊 Project Metrics Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Language:** ${{ inputs.language }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Directory:** ${{ inputs.working-directory }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📈 Metrics Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📏 Lines of Code | ${{ steps.loc.outputs.LOC }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📁 File Count | ${{ steps.file_count.outputs.FILE_COUNT }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🎯 Test Coverage | ${{ steps.coverage.outputs.COVERAGE }}% |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "![Metrics Chart](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/attempts/1/graph)" >> $GITHUB_STEP_SUMMARY
+
+      # --------------------------
+      - name: 📤 Upload SVG Metrics
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: metrics-${{ inputs.language }}-svg
+          path: ${{ inputs.working-directory }}/profile/metrics.svg
+          retention-days: 30
+
+    outputs:
+      loc: ${{ steps.loc.outputs.LOC }}
+      coverage: ${{ steps.coverage.outputs.COVERAGE }}
+      file_count: ${{ steps.file_count.outputs.FILE_COUNT }}

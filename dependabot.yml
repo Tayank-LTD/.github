@@ -1,0 +1,274 @@
+# Dependabot konfigürasyonu
+# Otomatik bağımlılık güncellemeleri için ayarlar
+
+version: 2
+updates:
+  # ========================
+  # 🐹 GO BAĞIMLILIKLARI
+  # ========================
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "go"
+      - "automated"
+    assignees:
+      - "backend-lead"
+    reviewers:
+      - "backend-lead"
+      - "go-specialist"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 10
+    pull-request-branch-name:
+      separator: "-"
+    ignore:
+      - dependency-name: "github.com/gorilla/websocket"
+        versions: ["2.x"]
+
+  # ========================
+  # 📦 NPM/BOB BAĞIMLILIKLARI (Frontend)
+  # ========================
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "10:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "javascript"
+      - "typescript"
+      - "automated"
+    assignees:
+      - "frontend-lead"
+    reviewers:
+      - "frontend-lead"
+      - "react-specialist"
+    versioning-strategy: "auto"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 15
+    ignore:
+      - dependency-name: "react"
+        versions: ["18.x"]
+      - dependency-name: "next"
+        versions: ["14.x"]
+      - dependency-name: "typescript"
+        versions: ["5.x"]
+
+  # ========================
+  # 🐍 PYTHON BAĞIMLILIKLARI (Botlar)
+  # ========================
+  - package-ecosystem: "pip"
+    directory: "/bots/python"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "11:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "python"
+      - "bots"
+      - "automated"
+    assignees:
+      - "python-lead"
+    reviewers:
+      - "python-lead"
+      - "bot-specialist"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "tayank.py"
+        versions: ["2.3.x"]
+      - dependency-name: "fastapi"
+        versions: ["0.104.x"]
+
+  # ========================
+  # 📱 FLUTTER/DART BAĞIMLILIKLARI (Mobil)
+  # ========================
+  - package-ecosystem: "pub"
+    directory: "/mobile"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "12:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "flutter"
+      - "dart"
+      - "mobile"
+      - "automated"
+    assignees:
+      - "mobile-lead"
+    reviewers:
+      - "mobile-lead"
+      - "flutter-specialist"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 12
+    ignore:
+      - dependency-name: "flutter"
+        versions: ["3.13.x"]
+      - dependency-name: "http"
+        versions: ["1.1.x"]
+
+  # ========================
+  # 🐳 DOCKER BAĞIMLILIKLARI
+  # ========================
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "first Monday"
+      time: "14:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "devops"
+      - "automated"
+    assignees:
+      - "devops-lead"
+    reviewers:
+      - "devops-lead"
+      - "backend-lead"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 5
+
+  # ========================
+  # 🔧 GITHUB ACTIONS
+  # ========================
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "first friday"
+      time: "15:00"
+      timezone: "Europe/Istanbul"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+      - "automated"
+    assignees:
+      - "devops-lead"
+    reviewers:
+      - "devops-lead"
+      - "ci-cd-specialist"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    open-pull-requests-limit: 8
+
+  # ========================
+  # 🔐 GÜVENLİK GÜNCELLEMELERİ
+  # ========================
+  # Güvenlik güncellemeleri için daha sık kontrol
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "security"
+      - "dependencies"
+      - "go"
+      - "automated"
+    assignees:
+      - "security-lead"
+    reviewers:
+      - "security-lead"
+      - "backend-lead"
+    commit-message:
+      prefix: "security"
+      include: "scope"
+    open-pull-requests-limit: 5
+    groups:
+      security-go:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"
+    labels:
+      - "security"
+      - "dependencies"
+      - "frontend"
+      - "automated"
+    assignees:
+      - "security-lead"
+    reviewers:
+      - "security-lead"
+      - "frontend-lead"
+    commit-message:
+      prefix: "security"
+      include: "scope"
+    open-pull-requests-limit: 5
+    groups:
+      security-js:
+        patterns:
+          - "*"
+
+# ========================
+# 📋 GÜNCELLEME GRUPLARI
+# ========================
+groups:
+  # Go major güncellemeleri
+  go-major:
+    patterns:
+      - "*"
+    update-types:
+      - "major"
+  
+  # Frontend major güncellemeleri  
+  npm-major:
+    patterns:
+      - "*"
+    update-types:
+      - "major"
+
+# ========================
+# 🔐 GÜVENLİK AYARLARI
+# ========================
+security-updates:
+  # Güvenlik güncellemelerini otomatik olarak birleştir
+  auto-merge:
+    # Sadece patch seviyesindeki güvenlik güncellemeleri
+    patch:
+      enabled: true
+      labels:
+        - "security"
+        - "dependencies"
+        - "auto-merge"
+    # Minor güncellemeler için manuel review gerekli
+    minor:
+      enabled: false
+    # Major güncellemeler için her zaman manuel review
+    major:
+      enabled: false
+  
+  # Güvenlik açığı uyarıları
+  alerts:
+    enabled: true
+    # Sadece yüksek ve kritik seviye güvenlik açıkları için PR oluştur
+    severity:
+      - "critical"
+      - "high"

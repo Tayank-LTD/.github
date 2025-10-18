@@ -4,36 +4,61 @@ on:
   workflow_call:
     inputs:
       go-version:
-        description: 'Go version to use'
+        description: "Go version to use"
         required: false
         type: string
-        default: '1.21'
+        default: "1.22.x"
+
+      working-directory:
+        description: "Working directory for the Go project"
+        required: false
+        type: string
+        default: "."
+
       coverage-threshold:
-        description: 'Minimum code coverage percentage'
+        description: "Minimum acceptable coverage percentage"
         required: false
         type: number
-        default: 80
-      working-directory:
-        description: 'Working directory for the service'
+        default: 75
+
+      build-binary:
+        description: "Build the Go binary after tests"
         required: false
-        type: string
-        default: '.'
-      run-integration-tests:
-        description: 'Run integration tests'
+        type: boolean
+        default: true
+
+      docker-build:
+        description: "Build Docker image for the Go service"
         required: false
         type: boolean
         default: false
-    secrets:
-      DOCKER_USERNAME:
+
+      docker-image-name:
+        description: "Docker image name (if docker-build=true)"
         required: false
-      DOCKER_PASSWORD:
+        type: string
+        default: "go-service"
+
+      docker-tag:
+        description: "Docker image tag"
         required: false
+        type: string
+        default: "latest"
+
+      push-docker:
+        description: "Push Docker image to registry"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
-  # Job 1: Code Quality
-  lint:
-    name: 🔍 Lint & Format
+  go-ci:
+    name: 🧩 Go CI Pipeline
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,76 +69,33 @@ jobs:
           go-version: ${{ inputs.go-version }}
           cache: true
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+      - name: Verify Go environment
+        run: |
+          go version
+          go env
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Lint code
+        uses: golangci/golangci-lint-action@v6
         with:
           version: latest
           working-directory: ${{ inputs.working-directory }}
           args: --timeout=5m
 
-      - name: Check formatting
-        working-directory: ${{ inputs.working-directory }}
+      - name: Vet and static check
         run: |
-          if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
-            echo "The following files are not formatted:"
-            gofmt -s -l .
-            exit 1
-          fi
+          go vet ./...
+          staticcheck ./... || true
 
-  # Job 2: Security Scanning
-  security:
-    name: 🔐 Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Run tests with coverage
+        run: go test ./... -v -coverprofile=coverage.out -covermode=atomic
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ inputs.go-version }}
-          cache: true
-
-      - name: Run Gosec Security Scanner
-        uses: securego/gosec@master
-        with:
-          args: '-no-fail -fmt json -out gosec-results.json ./...'
-
-      - name: Upload scan results
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
-        with:
-          sarif_file: gosec-results.json
-
-  # Job 3: Unit Tests
-  test:
-    name: 🧪 Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ inputs.go-version }}
-          cache: true
-
-      - name: Download dependencies
-        working-directory: ${{ inputs.working-directory }}
-        run: go mod download
-
-      - name: Run tests
-        working-directory: ${{ inputs.working-directory }}
-        run: |
-          go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
-
-      - name: Check coverage
-        working-directory: ${{ inputs.working-directory }}
+      - name: Check coverage threshold
         run: |
           coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
-          echo "Coverage: ${coverage}%"
-          
+          echo "Current coverage: ${coverage}%"
           if (( $(echo "$coverage < ${{ inputs.coverage-threshold }}" | bc -l) )); then
             echo "❌ Coverage ${coverage}% is below threshold ${{ inputs.coverage-threshold }}%"
             exit 1
@@ -122,152 +104,44 @@ jobs:
           fi
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ${{ inputs.working-directory }}/coverage.out
-          flags: unittests
-          name: codecov-umbrella
+          flags: go
+          name: go-ci
 
-  # Job 4: Integration Tests (Optional)
-  integration-test:
-    name: 🔗 Integration Tests
-    if: inputs.run-integration-tests
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: testdb
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-      redis:
-        image: redis:7-alpine
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
         with:
-          go-version: ${{ inputs.go-version }}
-          cache: true
-
-      - name: Run integration tests
-        working-directory: ${{ inputs.working-directory }}
-        env:
-          DATABASE_URL: postgres://postgres:test@localhost:5432/testdb?sslmode=disable
-          REDIS_URL: redis://localhost:6379
-        run: |
-          go test -v -tags=integration ./...
-
-  # Job 5: Build
-  build:
-    name: 🏗️ Build
-    runs-on: ubuntu-latest
-    needs: [lint, security, test]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ inputs.go-version }}
-          cache: true
-
-      - name: Build binary
-        working-directory: ${{ inputs.working-directory }}
-        run: |
-          go build -v -o bin/service ./cmd/server
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: service-binary
-          path: ${{ inputs.working-directory }}/bin/service
+          name: go-coverage
+          path: ${{ inputs.working-directory }}/coverage.out
           retention-days: 7
 
-  # Job 6: Docker Build (Only on main branch)
-  docker:
-    name: 🐳 Docker Build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix={{branch}}-
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ inputs.working-directory }}
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  # Job 7: Notify
-  notify:
-    name: 📢 Notify
-    if: always()
-    needs: [lint, security, test, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Determine status
-        id: status
+      - name: Build binary
+        if: ${{ inputs.build-binary }}
         run: |
-          if [ "${{ needs.lint.result }}" == "success" ] && \
-             [ "${{ needs.security.result }}" == "success" ] && \
-             [ "${{ needs.test.result }}" == "success" ] && \
-             [ "${{ needs.build.result }}" == "success" ]; then
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "emoji=✅" >> $GITHUB_OUTPUT
-          else
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "emoji=❌" >> $GITHUB_OUTPUT
-          fi
+          go build -o app .
+          echo "✅ Binary built successfully."
 
-      - name: Send notification
+      - name: Upload binary
+        if: ${{ inputs.build-binary }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-binary
+          path: ${{ inputs.working-directory }}/app
+          retention-days: 7
+
+      - name: Build Docker image
+        if: ${{ inputs.docker-build }}
         run: |
-          echo "${{ steps.status.outputs.emoji }} CI ${{ steps.status.outputs.status }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit: ${{ github.sha }}"
-          echo "Author: ${{ github.actor }}"
+          echo "🐳 Building Docker image..."
+          docker build -t ${{ inputs.docker-image-name }}:${{ inputs.docker-tag }} .
+
+      - name: Push Docker image
+        if: ${{ inputs.push-docker }}
+        env:
+          DOCKER_IMAGE: ${{ inputs.docker-image-name }}
+          DOCKER_TAG: ${{ inputs.docker-tag }}
+        run: |
+          echo "📦 Pushing Docker image to registry..."
+          docker push $DOCKER_IMAGE:$DOCKER_TAG

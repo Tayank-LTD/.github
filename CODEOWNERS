@@ -1,0 +1,184 @@
+# Kod Sahipliği - CODEOWNERS
+# Bu dosya, belirli dosya ve dizinler için kod sahiplerini tanımlar
+# Bu kişiler, ilgili alanlardaki değişiklikler için otomatik olarak review'a atanır
+
+# ========================
+# 🎯 PROJE YÖNETİMİ
+# ========================
+
+# Tüm proje genelindeki temel dosyalar
+*                               @tayank-lead @tech-lead
+
+# Lisans ve hukuki dosyalar
+/LICENSE                        @tayank-lead @legal-team
+/SECURITY.md                    @security-lead @tayank-lead
+
+# Dokümantasyon
+/README.md                      @tayank-lead @documentation-lead
+/CONTRIBUTING.md                @tayank-lead @community-manager
+/CODE_OF_CONDUCT.md             @community-manager @tayank-lead
+/SETUP_GUIDE.md                 @documentation-lead @tech-lead
+
+# GitHub özel dosyaları
+/.github/                       @tayank-lead @devops-lead
+/.github/workflows/             @devops-lead @ci-cd-specialist
+/.github/ISSUE_TEMPLATE/        @community-manager @tayank-lead
+
+# ========================
+# 🚀 BACKEND (GO)
+# ========================
+
+# Ana backend dizini
+/backend/                       @backend-lead @go-specialist
+
+# Backend servisleri
+/backend/api/                   @backend-lead @api-specialist
+/backend/auth/                  @backend-lead @security-lead
+/backend/websocket/             @backend-lead @real-time-specialist
+/backend/database/              @backend-lead @database-admin
+
+# Backend config ve utilities
+/backend/config/                @backend-lead @devops-lead
+/backend/internal/              @backend-lead @go-specialist
+/backend/pkg/                   @backend-lead @go-specialist
+
+# Go mod dosyaları
+go.mod                          @backend-lead @go-specialist
+go.sum                          @backend-lead @go-specialist
+
+# ========================
+# 🌐 FRONTEND (NEXT.JS/REACT)
+# ========================
+
+# Ana frontend dizini
+/frontend/                      @frontend-lead @react-specialist
+
+# React component'leri
+/frontend/components/           @frontend-lead @ui-specialist
+/frontend/pages/                @frontend-lead @react-specialist
+/frontend/hooks/                @frontend-lead @react-specialist
+/frontend/context/              @frontend-lead @state-management-specialist
+
+# Stil ve tema dosyaları
+/frontend/styles/               @frontend-lead @ui-specialist
+/frontend/public/               @frontend-lead @ui-specialist
+
+# Frontend config
+/frontend/next.config.js        @frontend-lead @devops-lead
+/frontend/package.json          @frontend-lead @react-specialist
+/frontend/tsconfig.json         @frontend-lead @typescript-specialist
+
+# ========================
+# 📱 MOBİL (FLUTTER)
+# ========================
+
+# Ana mobil dizini
+/mobile/                        @mobile-lead @flutter-specialist
+
+# Flutter yapısı
+/mobile/lib/                    @mobile-lead @flutter-specialist
+/mobile/android/                @mobile-lead @android-specialist
+/mobile/ios/                    @mobile-lead @ios-specialist
+/mobile/assets/                 @mobile-lead @ui-specialist
+
+# Flutter config
+/mobile/pubspec.yaml            @mobile-lead @flutter-specialist
+
+# ========================
+# 🤖 BOT SİSTEMİ
+# ========================
+
+# Bot framework'u
+/bots/                          @bots-lead @automation-specialist
+
+# Python botları
+/bots/python/                   @python-lead @bot-specialist
+/bots/python/requirements.txt   @python-lead @bot-specialist
+
+# Node.js botları
+/bots/node/                     @node-lead @bot-specialist
+/bots/node/package.json         @node-lead @bot-specialist
+
+# ========================
+# 🗄️ VERİTABANI & DEPOLAMA
+# ========================
+
+# Migration dosyaları
+/migrations/                    @backend-lead @database-admin
+
+# Database schema ve script'ler
+/database/                      @backend-lead @database-admin
+
+# ========================
+# 🔧 DEVOPS & ALTYAPI
+# ========================
+
+# Docker konfigürasyonları
+Dockerfile                      @devops-lead @backend-lead
+docker-compose.yml              @devops-lead @backend-lead
+.dockerignore                   @devops-lead @backend-lead
+
+# Ortam değişkenleri
+.env.example                    @devops-lead @backend-lead
+.env.production                 @devops-lead @security-lead
+
+# CI/CD konfigürasyonları
+.github/workflows/ci-*.yml      @devops-lead @ci-cd-specialist
+.github/workflows/deploy-*.yml  @devops-lead @ci-cd-specialist
+
+# ========================
+# 🧪 TESTLER
+# ========================
+
+# Backend testleri
+/backend/**/*_test.go           @backend-lead @qa-engineer
+
+# Frontend testleri
+/frontend/**/*.test.ts          @frontend-lead @qa-engineer
+/frontend/**/*.test.tsx         @frontend-lead @qa-engineer
+/frontend/**/*.spec.ts          @frontend-lead @qa-engineer
+
+# Mobil testleri
+/mobile/**/*_test.dart          @mobile-lead @qa-engineer
+
+# Integration testleri
+/tests/                         @qa-engineer @backend-lead
+
+# ========================
+# 📚 DOKÜMANTASYON
+# ========================
+
+# Teknik dokümantasyon
+/docs/                          @documentation-lead @tech-lead
+
+# API dokümantasyonu
+/docs/api/                      @backend-lead @api-specialist
+
+# Kullanıcı dokümantasyonu
+/docs/user/                     @documentation-lead @community-manager
+
+# ========================
+# 🎨 TASARIM & ASSET'LER
+# ========================
+
+# Tasarım dosyaları
+/design/                        @design-lead @ui-specialist
+
+# Asset'ler ve medya
+/assets/                        @design-lead @frontend-lead
+/public/                        @frontend-lead @design-lead
+
+# ========================
+# ⚠️ ÖZEL DURUMLAR
+# ========================
+
+# Kritik güvenlik dosyaları
+SECURITY.md                     @security-lead @tayank-lead
+
+# Bağımlılık yönetimi
+package-lock.json               @frontend-lead @devops-lead
+yarn.lock                       @frontend-lead @devops-lead
+pnpm-lock.yaml                  @frontend-lead @devops-lead
+
+# Not: Eğer bir dosya/dizin için birden fazla sahip varsa,
+# tüm sahiplerin onayı gerekebilir (repository ayarlarına bağlı)

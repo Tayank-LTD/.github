@@ -1,0 +1,291 @@
+# GitHub Etiket Konfigürasyonu
+# Bu dosya, GitHub repository'sindeki etiketleri otomatik olarak yönetir
+
+- name: "type: bug"
+  color: "d73a4a"
+  description: "Bir şeyler doğru çalışmıyor"
+  aliases:
+    - "hata"
+    - "bug"
+
+- name: "type: feature"
+  color: "a2eeef"
+  description: "Yeni özellik talebi"
+  aliases:
+    - "özellik"
+    - "yeni-özellik"
+
+- name: "type: improvement"
+  color: "0075ca"
+  description: "Mevcut özellik iyileştirmesi"
+  aliases:
+    - "iyileştirme"
+    - "geliştirme"
+
+- name: "type: documentation"
+  color: "0075ca"
+  description: "Dokümantasyon iyileştirmesi"
+  aliases:
+    - "dokümantasyon"
+    - "docs"
+
+- name: "type: refactor"
+  color: "0075ca"
+  description: "Kod yeniden yapılandırması"
+  aliases:
+    - "refactor"
+    - "yeniden-yapılandırma"
+
+- name: "type: performance"
+  color: "fbca04"
+  description: "Performans iyileştirmesi"
+  aliases:
+    - "performans"
+    - "hız"
+
+- name: "type: security"
+  color: "ee0701"
+  description: "Güvenlik ile ilgili konu"
+  aliases:
+    - "güvenlik"
+    - "security"
+
+- name: "type: chore"
+  color: "ffffff"
+  description: "Bakım görevleri"
+  aliases:
+    - "bakım"
+    - "chore"
+
+- name: "priority: critical"
+  color: "b60205"
+  description: "Acil, çekirdek işlevselliği etkiliyor"
+  aliases:
+    - "kritik"
+    - "acil"
+
+- name: "priority: high"
+  color: "d93f0b"
+  description: "Yüksek öncelikli, yakında çözülmeli"
+  aliases:
+    - "yüksek"
+    - "önemli"
+
+- name: "priority: medium"
+  color: "fbca04"
+  description: "Orta öncelikli"
+  aliases:
+    - "orta"
+    - "normal"
+
+- name: "priority: low"
+  color: "0e8a16"
+  description: "Düşük öncelikli, güzel olur"
+  aliases:
+    - "düşük"
+    - "opsiyonel"
+
+- name: "status: needs-triage"
+  color: "fef2c0"
+  description: "İlk değerlendirme bekleniyor"
+  aliases:
+    - "değerlendirme-bekliyor"
+    - "triage"
+
+- name: "status: needs-info"
+  color: "fef2c0"
+  description: "Daha fazla bilgi bekleniyor"
+  aliases:
+    - "bilgi-bekleniyor"
+    - "info"
+
+- name: "status: blocked"
+  color: "e99695"
+  description: "Başka bir issue tarafından engelleniyor"
+  aliases:
+    - "engellenmiş"
+    - "blocked"
+
+- name: "status: in-progress"
+  color: "fbca04"
+  description: "Üzerinde çalışılıyor"
+  aliases:
+    - "çalışılıyor"
+    - "devam-ediyor"
+
+- name: "status: needs-review"
+  color: "fbca04"
+  description: "Review bekleniyor"
+  aliases:
+    - "review-bekleniyor"
+    - "gözden-geçirme"
+
+- name: "status: ready-for-testing"
+  color: "0e8a16"
+  description: "Test için hazır"
+  aliases:
+    - "test-hazır"
+    - "qa-ready"
+
+- name: "status: done"
+  color: "0e8a16"
+  description: "Tamamlandı"
+  aliases:
+    - "tamamlandı"
+    - "bitti"
+
+- name: "component: backend"
+  color: "1d76db"
+  description: "Backend (Go) ile ilgili"
+  aliases:
+    - "backend"
+    - "go"
+
+- name: "component: frontend"
+  color: "1d76db"
+  description: "Frontend (Next.js) ile ilgili"
+  aliases:
+    - "frontend"
+    - "nextjs"
+    - "react"
+
+- name: "component: mobile"
+  color: "1d76db"
+  description: "Mobil (Flutter) ile ilgili"
+  aliases:
+    - "mobil"
+    - "flutter"
+    - "dart"
+
+- name: "component: api"
+  color: "1d76db"
+  description: "API ile ilgili"
+  aliases:
+    - "api"
+    - "endpoint"
+
+- name: "component: database"
+  color: "1d76db"
+  description: "Veritabanı ile ilgili"
+  aliases:
+    - "veritabanı"
+    - "database"
+
+- name: "component: auth"
+  color: "1d76db"
+  description: "Kimlik doğrulama ile ilgili"
+  aliases:
+    - "kimlik-doğrulama"
+    - "authentication"
+
+- name: "component: messaging"
+  color: "1d76db"
+  description: "Mesajlaşma ile ilgili"
+  aliases:
+    - "mesajlaşma"
+    - "chat"
+
+- name: "component: voice-video"
+  color: "1d76db"
+  description: "Ses/Video ile ilgili"
+  aliases:
+    - "ses-video"
+    - "voice-video"
+
+- name: "component: bots"
+  color: "1d76db"
+  description: "Botlar ile ilgili"
+  aliases:
+    - "botlar"
+    - "bots"
+
+- name: "component: devops"
+  color: "1d76db"
+  description: "DevOps/Altyapı ile ilgili"
+  aliases:
+    - "devops"
+    - "altyapı"
+
+- name: "good first issue"
+  color: "7057ff"
+  description: "Yeni başlayanlar için iyi"
+  aliases:
+    - "ilk-katkı"
+    - "yeni-başlayanlar"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Topluluk yardımı aranıyor"
+  aliases:
+    - "yardım-aranıyor"
+    - "community"
+
+- name: "breaking change"
+  color: "b60205"
+  description: "Breaking change içeriyor"
+  aliases:
+    - "breaking-change"
+    - "geriye-uyumsuz"
+
+- name: "dependencies"
+  color: "0366d6"
+  description: "Bağımlılık güncellemeleri"
+  aliases:
+    - "bağımlılıklar"
+    - "deps"
+
+- name: "automated"
+  color: "bfdadc"
+  description: "Otomatik olarak oluşturuldu"
+  aliases:
+    - "otomatik"
+    - "bot"
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "Bu konu zaten var"
+  aliases:
+    - "kopya"
+    - "tekrar"
+
+- name: "wontfix"
+  color: "ffffff"
+  description: "Bu düzeltilmeyecek"
+  aliases:
+    - "düzeltilmeyecek"
+    - "won't fix"
+
+- name: "invalid"
+  color: "e4e669"
+  description: "Bu geçerli değil"
+  aliases:
+    - "geçersiz"
+    - "invalid"
+
+- name: "question"
+  color: "d876e3"
+  description: "Daha fazla bilgi soruluyor"
+  aliases:
+    - "soru"
+    - "question"
+
+- name: "discussion"
+  color: "d876e3"
+  description: "Tartışma gerektiriyor"
+  aliases:
+    - "tartışma"
+    - "discussion"
+
+- name: "epic"
+  color: "3E4B9E"
+  description: "Büyük özellik veya geliştirme"
+  aliases:
+    - "epic"
+    - "büyük-özellik"
+
+- name: "story"
+  color: "3E4B9E"
+  description: "Kullanıcı hikayesi"
+  aliases:
+    - "hikaye"
+    - "user-story"

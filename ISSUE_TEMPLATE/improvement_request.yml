@@ -1,35 +1,35 @@
-name: ✨ Özellik Talebi
-description: Yeni bir özellik veya geliştirme önerisi sunun
-title: "[ÖZELLİK]: "
-labels: ["enhancement", "needs-triage", "feature-request"]
+name: 🛠 Geliştirme/İyileştirme Talebi
+description: Mevcut bir özelliği veya sistemi geliştirme önerisi sunun
+title: "[İYİLEŞTİRME]: "
+labels: ["improvement", "needs-triage", "enhancement"]
 assignees: []
 
 body:
   - type: markdown
     attributes:
       value: |
-        Özellik önerdiğiniz için teşekkürler! Görüşleriniz bizim için değerli.
+        Geliştirme veya iyileştirme önerdiğiniz için teşekkürler! Görüşleriniz bizim için değerli.
         
         **Göndermeden önce:**
-        - Bu özellik daha önce talep edilmiş mi kontrol edin
+        - Bu iyileştirme daha önce talep edilmiş mi kontrol edin
         - Önerinizin Tayank'ın amaçlarıyla uyumlu olduğundan emin olun
         - Mümkünse örnek durum veya kullanım senaryosu ekleyin
 
   - type: textarea
-    id: problem
+    id: current-behavior
     attributes:
-      label: Problem Tanımı
-      description: Bu özellik hangi sorunu çözecek? Mümkünse örnek durum ekleyin.
-      placeholder: "Örneğin: Her zaman ... olduğunda zorlanıyorum"
+      label: Mevcut Davranış
+      description: İyileştirme önerdiğiniz özellik şu anda nasıl çalışıyor?
+      placeholder: "Örneğin: Dosya yüklerken çok yavaş yanıt alıyorum"
     validations:
       required: true
 
   - type: textarea
-    id: solution
+    id: improvement
     attributes:
-      label: Önerilen Çözüm
-      description: Önerdiğiniz çözümü ayrıntılı bir şekilde açıklayın. Örnekler eklemek faydalıdır.
-      placeholder: "Şu şekilde bir çözüm görmek isterim..."
+      label: Önerilen İyileştirme
+      description: Bu özelliği veya sistemi nasıl geliştirmeyi öneriyorsunuz? Örneklerle açıklayın.
+      placeholder: "Örneğin: Dosya yükleme süresini azaltmak için önbellekleme kullanılabilir"
     validations:
       required: true
 
@@ -37,8 +37,8 @@ body:
     id: alternatives
     attributes:
       label: Düşünülen Alternatifler
-      description: Hangi alternatif çözümleri düşündünüz?
-      placeholder: "Ayrıca şu alternatifleri de değerlendirdim..."
+      description: Bu iyileştirme için düşündüğünüz diğer yöntemler veya çözümler
+      placeholder: "Alternatif olarak şunu da deneyebiliriz..."
     validations:
       required: false
 
@@ -46,7 +46,7 @@ body:
     id: component
     attributes:
       label: Etkilenecek Bileşen
-      description: Bu özellik Tayank'ın hangi bölümünü etkileyecek?
+      description: Bu iyileştirme Tayank'ın hangi bölümünü etkileyecek?
       options:
         - Web Uygulaması (Next.js)
         - Mobil Uygulama (Flutter iOS)
@@ -67,8 +67,9 @@ body:
         - Arama
         - Moderasyon
         - Botlar/Entegrasyonlar
-        - Performans
-        - Güvenlik
+        - Performans Optimizasyonu
+        - Kullanıcı Deneyimi (UX)
+        - Güvenlik İyileştirmesi
         - Diğer
     validations:
       required: true
@@ -77,7 +78,7 @@ body:
     id: user-type
     attributes:
       label: Kullanıcı Türü
-      description: Bu özellikten kimler faydalanacak?
+      description: Bu iyileştirmeden kimler faydalanacak?
       multiple: true
       options:
         - Normal Kullanıcılar
@@ -93,12 +94,12 @@ body:
     id: priority
     attributes:
       label: Öncelik (Kendi Görüşünüz)
-      description: Bu özellik sizin için ne kadar önemli? Önceliği kendi kullanım durumunuza göre seçin.
+      description: Bu iyileştirmenin sizin için önemi nedir? Önceliği kendi kullanım durumunuza göre seçin.
       options:
-        - Kritik (Bu olmadan Tayank'ı etkili kullanamıyorum)
-        - Yüksek (Çok önemli bir ihtiyaç)
-        - Orta (Faydalı olur, işimi kolaylaştırır)
-        - Düşük (Küçük iyileştirme, güzel olur)
+        - Kritik (Mevcut durum kullanılamaz seviyede sorunlu)
+        - Yüksek (Ciddi bir sorunu çözecek)
+        - Orta (Önemli ölçüde iyileştirme sağlayacak)
+        - Düşük (Küçük ama faydalı bir iyileştirme)
     validations:
       required: true
 
@@ -106,16 +107,16 @@ body:
     id: use-case
     attributes:
       label: Kullanım Senaryosu / User Story
-      description: Bu özelliği nasıl kullanacağınızı veya başkalarının nasıl kullanacağını açıklayın. Mümkünse kısa bir senaryo veya adım ekleyin.
+      description: Bu iyileştirmeyi nasıl kullanacağınızı veya başkalarının nasıl kullanacağını açıklayın. Mümkünse kısa bir senaryo veya adım ekleyin.
       placeholder: |
         Bir [kullanıcı türü] olarak,
-        [şunu yapmak istiyorum],
-        Böylece [hedefime ulaşabilirim]
+        [şunu daha iyi yapabilmek istiyorum],
+        Böylece [daha verimli çalışabilirim]
         
         Örnek:
         Bir sunucu yöneticisi olarak,
-        kullanıcıları belirli kriterlere göre otomatik olarak etiketlemek istiyorum,
-        böylece moderasyon işlemlerini otomatikleştirebilirim.
+        kullanıcı istatistiklerini daha hızlı görüntüleyebilmek istiyorum,
+        böylece moderasyon kararlarını daha hızlı alabilirim.
     validations:
       required: false
 
@@ -132,8 +133,8 @@ body:
     id: technical
     attributes:
       label: Teknik Detaylar
-      description: Herhangi bir teknik detay, kısıtlama veya uygulama öneriniz var mı? Örneğin: Bu özellik veri tabanında yeni tablo gerektirebilir.
-      placeholder: "Bu özellik şunları gerektirebilir..."
+      description: Herhangi bir teknik detay, kısıtlama veya uygulama öneriniz var mı? Örnek: Bu iyileştirme için önbellekleme veya yeni API gerekebilir.
+      placeholder: "Bu iyileştirme şunları gerektirebilir..."
 
   - type: textarea
     id: additional
@@ -146,9 +147,9 @@ body:
     attributes:
       label: Kontrol Listesi
       options:
-        - label: Var olan özellik taleplerini kontrol ettim ve tekrar bildirmedim
+        - label: Var olan iyileştirme taleplerini kontrol ettim ve tekrar bildirmedim
           required: true
-        - label: Bu özellik Tayank'ın hedefleriyle uyumlu
+        - label: Bu iyileştirme Tayank'ın hedefleriyle uyumlu
           required: true
-        - label: Özelliğin anlaşılması için yeterli bilgi sağladım
+        - label: Önerinin anlaşılması için yeterli bilgi sağladım
           required: true

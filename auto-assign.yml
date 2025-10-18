@@ -1,0 +1,170 @@
+# Otomatik atama konfigürasyonu
+# PR ve issue'lara otomatik olarak takım üyelerini atar
+
+# Varsayılan atanacak kişiler (tüm PR/issue'lar için)
+assignees:
+  - tayank-lead
+  - tech-lead
+
+# Kaç kişi atanacağı (1-2 arasında rastgele)
+numberOfAssignees: 1
+
+# Hangi etkinliklerde atama yapılacağı
+addAssigneesTo:
+  - pull_request
+  - issues
+
+# Dosya yoluna göre özel atamalar
+files:
+  # Backend (Go) dosyaları
+  "backend/**/*.go":
+    - backend-lead
+    - go-specialist
+  
+  # Frontend (Next.js/React) dosyaları
+  "frontend/**/*.ts":
+    - frontend-lead
+    - react-specialist
+  "frontend/**/*.tsx":
+    - frontend-lead
+    - react-specialist
+  "frontend/**/*.js":
+    - frontend-lead
+    - react-specialist
+  "frontend/**/*.jsx":
+    - frontend-lead
+    - react-specialist
+  
+  # Mobil (Flutter/Dart) dosyaları
+  "mobile/**/*.dart":
+    - mobile-lead
+    - flutter-specialist
+  
+  # Python botları
+  "bots/python/**/*.py":
+    - python-lead
+    - bot-specialist
+  
+  # Node.js botları
+  "bots/node/**/*.js":
+    - node-lead
+    - bot-specialist
+  "bots/node/**/*.ts":
+    - node-lead
+    - bot-specialist
+  
+  # API ve endpoint değişiklikleri
+  "**/api/**":
+    - backend-lead
+    - api-specialist
+  
+  # Database migration/schema
+  "**/migrations/**":
+    - backend-lead
+    - database-admin
+  
+  # Docker ve deployment
+  "**/Dockerfile*":
+    - devops-lead
+    - backend-lead
+  "**/docker-compose*":
+    - devops-lead
+    - backend-lead
+  "**/.github/workflows/**":
+    - devops-lead
+    - ci-cd-specialist
+  
+  # Dokümantasyon
+  "**/*.md":
+    - documentation-lead
+    - technical-writer
+  "docs/**":
+    - documentation-lead
+    - technical-writer
+
+# Branch bazlı atamalar
+branches:
+  - "main":
+      assignees:
+        - tayank-lead
+        - tech-lead
+      numberOfAssignees: 2
+  - "develop":
+      assignees:
+        - backend-lead
+        - frontend-lead
+        - mobile-lead
+      numberOfAssignees: 1
+  - "release/**":
+      assignees:
+        - devops-lead
+        - quality-assurance
+      numberOfAssignees: 2
+
+# Etiket bazlı atamalar
+labels:
+  - "bug":
+      assignees:
+        - backend-lead
+        - frontend-lead
+      numberOfAssignees: 1
+  - "security":
+      assignees:
+        - security-lead
+        - backend-lead
+      numberOfAssignees: 2
+  - "performance":
+      assignees:
+        - backend-lead
+        - devops-lead
+      numberOfAssignees: 1
+  - "ui/ux":
+      assignees:
+        - frontend-lead
+        - design-lead
+      numberOfAssignees: 1
+  - "mobile":
+      assignees:
+        - mobile-lead
+        - flutter-specialist
+      numberOfAssignees: 1
+  - "api":
+      assignees:
+        - backend-lead
+        - api-specialist
+      numberOfAssignees: 1
+
+# Çakışma durumunda öncelik sırası
+# (Yukarıdaki kurallardan birden fazlası eşleşirse hangisi uygulansın?)
+priority: files # files -> labels -> branches -> default
+
+# Atama yapılmadan önce review iste
+requestReviewers: true
+
+# Review istenecek kişiler (assignees ile aynı olabilir)
+reviewers:
+  - backend-lead
+  - frontend-lead
+  - mobile-lead
+  - tech-lead
+
+# Review için dosya bazlı kurallar
+fileReviewers:
+  "backend/**/*.go":
+    - backend-lead
+    - go-specialist
+  "frontend/**/*":
+    - frontend-lead
+    - react-specialist
+  "mobile/**/*":
+    - mobile-lead
+    - flutter-specialist
+  "bots/**/*":
+    - python-lead
+    - node-lead
+
+# Açıklama (opsiyonel)
+_comment: |
+  Bu konfigürasyon, Tayank projesindeki PR ve issue'lara
+  otomatik atama yapmak için kullanılır.
+  Takım üyeleri GitHub kullanıcı adları ile belirtilmelidir.

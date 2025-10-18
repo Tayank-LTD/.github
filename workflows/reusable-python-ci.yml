@@ -1,0 +1,104 @@
+name: ♻️ Reusable Python CI Workflow
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python version to use (default: 3.11)"
+        required: false
+        default: "3.11"
+      working-directory:
+        description: "Directory where the Python project is located"
+        required: false
+        default: "."
+      run-tests:
+        description: "Run tests (true/false)"
+        required: false
+        default: true
+      docker-build:
+        description: "Build and test inside Docker (true/false)"
+        required: false
+        default: true
+    secrets:
+      PYPI_TOKEN:
+        required: false
+
+jobs:
+  python-ci:
+    name: Python CI (${{ inputs.working-directory }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      # 🧹 1. Kaynak Kodun İndirilmesi
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🧱 2. Python Kurulumu
+      - name: Setup Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: "pip"
+
+      # 📦 3. Gerekli Bağımlılıkların Kurulumu
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest black ruff
+
+      # 🧹 4. Kod Kalitesi Kontrolleri
+      - name: Run lint and format checks
+        run: |
+          echo "🔍 Running code checks..."
+          ruff check .
+          black --check .
+
+      # 🧪 5. Testlerin Çalıştırılması
+      - name: Run pytest
+        if: ${{ inputs.run-tests == 'true' }}
+        run: |
+          echo "🧪 Running tests..."
+          pytest -v --maxfail=3 --disable-warnings --cov=. --cov-report=term-missing
+
+      # 🐳 6. Docker Image Oluşturma
+      - name: Build Docker image
+        if: ${{ inputs.docker-build == 'true' }}
+        run: |
+          echo "🐳 Building Docker image..."
+          docker build -t tayank-python:${{ github.sha }} .
+
+      # 🧾 7. Docker Container Testi
+      - name: Test Docker container
+        if: ${{ inputs.docker-build == 'true' }}
+        run: |
+          echo "✅ Verifying Docker container..."
+          docker run --rm tayank-python:${{ github.sha }} python --version
+
+      # 📤 8. Test Raporlarının Kaydedilmesi
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report-${{ github.sha }}
+          path: .pytest_cache/
+
+      # 📦 9. Build Artifacts
+      - name: Upload build artifacts
+        if: ${{ always() && hashFiles('dist/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-build-${{ github.sha }}
+          path: dist/
+
+      # 🧾 10. Özet Bilgi
+      - name: Build Summary
+        run: |
+          echo "✅ Python Version: $(python --version)"
+          echo "📦 Installed Packages:"
+          pip list
+          echo "📍 Working Directory: ${{ inputs.working-directory }}"
+          echo "🏁 CI pipeline completed successfully."

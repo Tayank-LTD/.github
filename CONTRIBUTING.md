@@ -1,113 +1,117 @@
-# Contributing to Tayank
+# Tayank'a Katkıda Bulunma
 
-First off, thank you for considering contributing to Tayank! 🎉
+Öncelikle, Tayank'a katkıda bulunmayı düşündüğünüz için teşekkür ederiz! 🎉
 
-It's people like you that make Tayank such a great platform.
+Sizin gibi insanlar sayesinde Tayank harika bir platform haline geliyor.
 
-## 📋 Table of Contents
+## 📋 İçindekiler
 
-- [Code of Conduct](#code-of-conduct)
-- [How Can I Contribute?](#how-can-i-contribute)
-- [Development Setup](#development-setup)
-- [Pull Request Process](#pull-request-process)
-- [Coding Standards](#coding-standards)
-- [Commit Guidelines](#commit-guidelines)
-- [Testing Guidelines](#testing-guidelines)
-- [Documentation](#documentation)
-
----
-
-## 📜 Code of Conduct
-
-This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+- [Davranış Kuralları](#davranış-kuralları)
+- [Nasıl Katkıda Bulunabilirim?](#nasıl-katkıda-bulunabilirim)
+- [Geliştirme Kurulumu](#geliştirme-kurulumu)
+- [Pull Request Süreci](#pull-request-süreci)
+- [Kodlama Standartları](#kodlama-standartları)
+- [Commit Kuralları](#commit-kuralları)
+- [Test Kılavuzları](#test-kılavuzları)
+- [Dokümantasyon](#dokümantasyon)
 
 ---
 
-## 🤝 How Can I Contribute?
+## 📜 Davranış Kuralları
 
-### Reporting Bugs
-
-Before creating bug reports, please check existing issues to avoid duplicates.
-
-**How to submit a good bug report:**
-- Use our [bug report template](.github/ISSUE_TEMPLATE/bug_report.yml)
-- Provide a clear title and description
-- Include steps to reproduce
-- Add screenshots/logs if applicable
-- Specify your environment (OS, browser, version)
-
-### Suggesting Features
-
-We love feature suggestions!
-
-**How to submit a good feature request:**
-- Use our [feature request template](.github/ISSUE_TEMPLATE/feature_request.yml)
-- Explain the problem you're trying to solve
-- Describe your proposed solution
-- Consider alternatives
-- Think about impact on existing users
-
-### Contributing Code
-
-**Good First Issues:**
-Look for issues labeled [`good first issue`](https://github.com/search?q=org%3Atayank-inc+label%3A%22good+first+issue%22+state%3Aopen&type=Issues) - these are great for newcomers!
-
-**Steps to contribute:**
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Write/update tests
-5. Run tests (`make test`)
-6. Commit your changes (follow [commit guidelines](#commit-guidelines))
-7. Push to your fork (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+Bu proje ve içinde yer alan herkes [Davranış Kurallarımız](CODE_OF_CONDUCT.md) ile yönetilir. Katılarak bu kurallara uymayı kabul etmiş olursunuz.
 
 ---
 
-## 🛠️ Development Setup
+## 🤝 Nasıl Katkıda Bulunabilirim?
 
-### Prerequisites
+### Hata Bildirme
+
+Hata raporu oluşturmadan önce, tekrarları önlemek için mevcut issue'ları kontrol edin.
+
+**İyi bir hata raporu nasıl hazırlanır:**
+- [Hata raporu şablonumuzu](.github/ISSUE_TEMPLATE/bug_report.yml) kullanın
+- Net bir başlık ve açıklama sağlayın
+- Yeniden oluşturma adımlarını ekleyin
+- Uygunsa ekran görüntüsü/log ekleyin
+- Ortamınızı belirtin (İşletim Sistemi, tarayıcı, versiyon)
+
+### Özellik Önerme
+
+Özellik önerilerinizi seviyoruz!
+
+**İyi bir özellik isteği nasıl hazırlanır:**
+- [Özellik isteği şablonumuzu](.github/ISSUE_TEMPLATE/feature_request.yml) kullanın
+- Çözmeye çalıştığınız problemi açıklayın
+- Önerdiğiniz çözümü tanımlayın
+- Alternatifleri düşünün
+- Mevcut kullanıcılar üzerindeki etkiyi değerlendirin
+
+### Kodlama Katkısı
+
+**İlk Katkılar İçin İyi Issue'lar:**
+[`good first issue`](https://github.com/search?q=org%3ATayank-LTD+label%3A%22good+first+issue%22+state%3Aopen&type=Issues) etiketli issue'ları arayın - bunlar yeni başlayanlar için harikadır!
+
+**Katkıda bulunma adımları:**
+1. Repository'yi fork'layın
+2. Bir feature branch oluşturun (`git checkout -b feature/muhteşem-özellik`)
+3. Değişikliklerinizi yapın
+4. Test yazın/güncelleyin
+5. Testleri çalıştırın (`make test`)
+6. Değişikliklerinizi commit'leyin ([commit kuralları](#commit-kuralları)'nı takip edin)
+7. Fork'unuza push'layın (`git push origin feature/muhteşem-özellik`)
+8. Bir Pull Request açın
+
+---
+
+## 🛠️ Geliştirme Kurulumu
+
+### Ön Gereksinimler
 
 - **Go**: 1.21+
 - **Node.js**: 18+
+- **Python**: 3.11+
+- **Flutter**: 3.13+
+- **Bun**: 1.0+
 - **Docker**: 20+
 - **Docker Compose**: 2.0+
 - **Git**: 2.30+
 
-### Initial Setup
+### Başlangıç Kurulumu
 
 ```bash
-# Clone main repository
-git clone https://github.com/tayank-inc/tayank.git
+# Ana repository'yi klonlayın
+git clone https://github.com/Tayank-LTD/tayank.git
 cd tayank
 
-# Start infrastructure (PostgreSQL, Redis, Kafka, etc.)
+# Altyapıyı başlatın (PostgreSQL, Redis, vb.)
 docker-compose up -d
 
-# Run database migrations
+# Veritabanı migration'larını çalıştırın
 make migrate
 
-# Start all services (development mode)
+# Tüm servisleri başlatın (geliştirme modu)
 make dev
 ```
 
-### Repository Structure
+### Repository Yapısı
 
 ```
 tayank/
-├── services/          # Backend microservices (Go)
-├── apps/             # Frontend applications
-├── packages/         # Shared libraries
-├── infrastructure/   # Terraform, K8s configs
-├── docs/            # Documentation
-└── scripts/         # Utility scripts
+├── backend/           # Backend servisleri (Go)
+├── frontend/          # Next.js web uygulaması
+├── mobile/            # Flutter mobil uygulama
+├── bots/              # Python/Node.js botlar
+├── shared/            # Paylaşılan kütüphaneler
+├── docs/              # Dokümantasyon
+└── scripts/           # Yardımcı script'ler
 ```
 
-### Service-Specific Setup
+### Servis Bazlı Kurulum
 
 **Backend (Go):**
 ```bash
-cd services/auth-service
+cd backend
 go mod download
 go build ./cmd/server
 go test ./...
@@ -115,113 +119,130 @@ go test ./...
 
 **Frontend (Next.js):**
 ```bash
-cd apps/web
-npm install
-npm run dev
-npm test
+cd frontend
+bun install
+bun dev
+bun test
 ```
 
-**Mobile (Flutter):**
+**Mobil (Flutter):**
 ```bash
-cd apps/mobile
+cd mobile
 flutter pub get
 flutter run
 flutter test
 ```
 
----
-
-## 🔄 Pull Request Process
-
-### Before Submitting
-
-1. **Update documentation** - README, API docs, etc.
-2. **Write tests** - Maintain 80%+ code coverage
-3. **Run linters** - `make lint`
-4. **Run all tests** - `make test`
-5. **Update CHANGELOG** - Add entry under "Unreleased"
-6. **Self-review** - Review your own code first
-
-### PR Requirements
-
-- [ ] Clear title (follow convention below)
-- [ ] Description explains what and why
-- [ ] All tests pass
-- [ ] Code coverage maintained/improved
-- [ ] Documentation updated
-- [ ] No merge conflicts
-- [ ] Approved by at least 1 reviewer
-
-### PR Title Convention
-
-```
-<type>(<scope>): <subject>
-
-Examples:
-feat(auth): add OAuth2 support
-fix(messaging): resolve memory leak in WebSocket
-docs(api): update authentication guide
-refactor(voice): improve codec efficiency
-test(billing): add Stripe webhook tests
+**Botlar (Python):**
+```bash
+cd bots/python
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pytest
 ```
 
-**Types:**
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation only
-- `style` - Formatting, missing semi-colons, etc.
-- `refactor` - Code restructuring
-- `perf` - Performance improvement
-- `test` - Adding/updating tests
-- `chore` - Maintenance tasks
-
-### Review Process
-
-1. **Automated checks** - CI/CD runs automatically
-2. **Code review** - Maintainers review within 48 hours
-3. **Changes requested** - Address feedback
-4. **Approval** - At least 1 approval required
-5. **Merge** - Maintainers merge (usually squash & merge)
+**Botlar (Node.js):**
+```bash
+cd bots/node
+bun install
+bun dev
+bun test
+```
 
 ---
 
-## 💻 Coding Standards
+## 🔄 Pull Request Süreci
+
+### Göndermeden Önce
+
+1. **Dokümantasyonu güncelleyin** - README, API dokümanları, vb.
+2. **Test yazın** - %80+ kod kapsamını koruyun
+3. **Linter'ları çalıştırın** - `make lint`
+4. **Tüm testleri çalıştırın** - `make test`
+5. **CHANGELOG'u güncelleyin** - "Yayınlanmamış" altına giriş ekleyin
+6. **Kendi kendinize review yapın** - Önce kendi kodunuzu review edin
+
+### PR Gereksinimleri
+
+- [ ] Net başlık (aşağıdaki kurala uygun)
+- [ ] Açıklama ne ve neden'i açıklıyor
+- [ ] Tüm testler geçiyor
+- [ ] Kod kapsamı korundu/iyileştirildi
+- [ ] Dokümantasyon güncellendi
+- [ ] Merge conflict yok
+- [ ] En az 1 reviewer tarafından onaylandı
+
+### PR Başlık Kuralı
+
+```
+<type>(<scope>): <konu>
+
+Örnekler:
+feat(auth): OAuth2 desteği ekle
+fix(mesajlaşma): WebSocket'te bellek sızıntısını çöz
+docs(api): kimlik doğrulama rehberini güncelle
+refactor(ses): codec verimliliğini iyileştir
+test(fatura): Stripe webhook testleri ekle
+```
+
+**Tipler:**
+- `feat` - Yeni özellik
+- `fix` - Hata düzeltmesi
+- `docs` - Sadece dokümantasyon
+- `style` - Formatlama, noktalı virgül eksikliği, vb.
+- `refactor` - Kod yeniden yapılandırması
+- `perf` - Performans iyileştirmesi
+- `test` - Test ekleme/güncelleme
+- `chore` - Bakım görevleri
+
+### Review Süreci
+
+1. **Otomatik kontroller** - CI/CD otomatik çalışır
+2. **Kod review** - Maintainer'lar 48 saat içinde review yapar
+3. **Değişiklikler talep edildi** - Geri bildirimleri ele alın
+4. **Onay** - En az 1 onay gerekli
+5. **Merge** - Maintainer'lar merge eder (genellikle squash & merge)
+
+---
+
+## 💻 Kodlama Standartları
 
 ### Go
 
-**Style Guide:** Follow [Effective Go](https://golang.org/doc/effective_go.html)
+**Stil Rehberi:** [Effective Go](https://golang.org/doc/effective_go.html)'yu takip edin
 
 ```go
-// ✅ Good
+// ✅ İyi
 func (s *AuthService) CreateUser(ctx context.Context, req *CreateUserRequest) (*User, error) {
     if err := s.validator.Validate(req); err != nil {
-        return nil, fmt.Errorf("validation failed: %w", err)
+        return nil, fmt.Errorf("doğrulama başarısız: %w", err)
     }
     
-    // ... implementation
+    // ... implementasyon
 }
 
-// ❌ Bad
+// ❌ Kötü
 func createUser(r *CreateUserRequest) *User {
-    // Missing context, error handling, validation
+    // Eksik context, hata yönetimi, doğrulama
 }
 ```
 
-**Rules:**
-- Use `gofmt` for formatting
-- Run `golangci-lint` before committing
-- Write descriptive variable names (no single letters except loops)
-- Add comments for exported functions
-- Handle ALL errors
-- Use context for cancellation/timeouts
-- Keep functions small (<50 lines)
+**Kurallar:**
+- Formatlama için `gofmt` kullanın
+- Commit'ten önce `golangci-lint` çalıştırın
+- Açıklayıcı değişken isimleri kullanın (döngüler hariç tek harf yok)
+- Dışa aktarılan fonksiyonlar için yorum ekleyin
+- TÜM hataları ele alın
+- İptal/zaman aşımları için context kullanın
+- Fonksiyonları küçük tutun (<50 satır)
 
 ### TypeScript/JavaScript
 
-**Style Guide:** Follow [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+**Stil Rehberi:** [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)'ı takip edin
 
 ```typescript
-// ✅ Good
+// ✅ İyi
 interface User {
   id: string;
   username: string;
@@ -233,27 +254,27 @@ async function fetchUser(userId: string): Promise<User> {
   return response.data;
 }
 
-// ❌ Bad
+// ❌ Kötü
 function getUser(id) {
-  // Missing types, async/await
+  // Eksik tipler, async/await
   return api.get('/users/' + id).then(r => r.data);
 }
 ```
 
-**Rules:**
-- Use TypeScript (no `any` type)
-- Use `async/await` over `.then()`
-- Use `const` over `let`, never `var`
-- Use arrow functions for callbacks
-- Run ESLint and Prettier
-- Write JSDoc comments for complex functions
+**Kurallar:**
+- TypeScript kullanın (`any` tipi yok)
+- `.then()` yerine `async/await` kullanın
+- `let` yerine `const`, asla `var` kullanmayın
+- Callback'ler için ok fonksiyonları kullanın
+- ESLint ve Prettier çalıştırın
+- Karmaşık fonksiyonlar için JSDoc yorumları yazın
 
 ### Flutter/Dart
 
-**Style Guide:** Follow [Effective Dart](https://dart.dev/guides/language/effective-dart)
+**Stil Rehberi:** [Effective Dart](https://dart.dev/guides/language/effective-dart)'ı takip edin
 
 ```dart
-// ✅ Good
+// ✅ İyi
 class UserRepository {
   Future<User> fetchUser(String userId) async {
     final response = await _api.get('/users/$userId');
@@ -261,100 +282,126 @@ class UserRepository {
   }
 }
 
-// ❌ Bad
+// ❌ Kötü
 fetchUser(id) {
   return _api.get('/users/' + id).then((r) => User.fromJson(r.data));
 }
 ```
 
+### Python
+
+**Stil Rehberi:** [PEP 8](https://peps.python.org/pep-0008/)'i takip edin
+
+```python
+# ✅ İyi
+def fetch_user(user_id: str) -> User:
+    """Kullanıcıyı ID'ye göre getirir.
+    
+    Args:
+        user_id: Kullanıcı ID'si
+        
+    Returns:
+        User: Kullanıcı nesnesi
+        
+    Raises:
+        UserNotFound: Kullanıcı bulunamazsa
+    """
+    response = api.get(f'/users/{user_id}')
+    return User.from_dict(response.json())
+
+# ❌ Kötü
+def getuser(id):
+    return User.from_dict(api.get('/users/'+id).json())
+```
+
 ---
 
-## 📝 Commit Guidelines
+## 📝 Commit Kuralları
 
-### Conventional Commits
+### Konvansiyonel Commit'ler
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/).
+[Conventional Commits](https://www.conventionalcommits.org/)'i takip ediyoruz.
 
 **Format:**
 ```
-<type>(<scope>): <subject>
+<type>(<scope>): <konu>
 
 <body>
 
 <footer>
 ```
 
-**Example:**
+**Örnek:**
 ```
-feat(auth): add OAuth2 login flow
+feat(auth): OAuth2 giriş akışı ekle
 
-Implement OAuth2 authorization code flow with support for
-Google, GitHub, and Microsoft providers.
+Google, GitHub ve Microsoft sağlayıcıları ile
+OAuth2 authorization code flow'unu uygulayın.
 
-- Add OAuth2 client configuration
-- Implement token exchange
-- Add user profile fetching
-- Update login UI
+- OAuth2 istemci konfigürasyonu ekle
+- Token değişimini uygula
+- Kullanıcı profili getirmeyi ekle
+- Giriş UI'sını güncelle
 
-Closes #123
+#123 kapatır
 ```
 
-**Types:**
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation
-- `style` - Formatting
-- `refactor` - Code restructuring
-- `perf` - Performance
-- `test` - Testing
-- `build` - Build system
+**Tipler:**
+- `feat` - Yeni özellik
+- `fix` - Hata düzeltmesi
+- `docs` - Dokümantasyon
+- `style` - Formatlama
+- `refactor` - Kod yeniden yapılandırması
+- `perf` - Performans
+- `test` - Test etme
+- `build` - Build sistemi
 - `ci` - CI/CD
-- `chore` - Maintenance
+- `chore` - Bakım
 
-**Rules:**
-- Use present tense ("add feature" not "added feature")
-- Use imperative mood ("move cursor" not "moves cursor")
-- Don't capitalize first letter
-- No period at the end
-- Reference issues/PRs in footer
+**Kurallar:**
+- Şimdiki zaman kullanın ("özellik ekle" "özellik ekledi" değil)
+- Emir kipi kullanın ("imleci taşı" "imleç taşır" değil)
+- İlk harfi büyük yapmayın
+- Sonunda nokta yok
+- Footer'da issue/PR'lara referans verin
 
 ---
 
-## 🧪 Testing Guidelines
+## 🧪 Test Kılavuzları
 
-### Test Coverage
+### Test Kapsamı
 
-- **Minimum**: 80% code coverage
-- **Target**: 90%+ for critical services (auth, billing)
+- **Minimum**: %80 kod kapsamı
+- **Hedef**: Kritik servisler için %90+ (auth, mesajlaşma)
 
-### Test Pyramid
+### Test Piramidi
 
 ```
        /\
-      /  \     E2E (10%)
+      /  \     E2E (%10)
      /____\    
-    /      \   Integration (30%)
+    /      \   Entegrasyon (%30)
    /________\  
-  /          \ Unit (60%)
+  /          \ Birim (%60)
  /____________\
 ```
 
-### Writing Tests
+### Test Yazma
 
 **Go:**
 ```go
 func TestCreateUser(t *testing.T) {
-    // Arrange
+    // Düzenle
     service := NewAuthService(mockRepo)
     req := &CreateUserRequest{
         Username: "testuser",
         Email:    "test@example.com",
     }
     
-    // Act
+    // Hareket
     user, err := service.CreateUser(context.Background(), req)
     
-    // Assert
+    // Doğrula
     assert.NoError(t, err)
     assert.NotNil(t, user)
     assert.Equal(t, "testuser", user.Username)
@@ -365,67 +412,70 @@ func TestCreateUser(t *testing.T) {
 ```typescript
 describe('fetchUser', () => {
   it('should fetch user successfully', async () => {
-    // Arrange
+    // Düzenle
     const userId = '123';
     mockApi.get.mockResolvedValue({ data: mockUser });
     
-    // Act
+    // Hareket
     const user = await fetchUser(userId);
     
-    // Assert
+    // Doğrula
     expect(user).toEqual(mockUser);
     expect(mockApi.get).toHaveBeenCalledWith('/users/123');
   });
 });
 ```
 
-### Running Tests
+### Test Çalıştırma
 
 ```bash
-# Go (unit + integration)
+# Go (birim + entegrasyon)
 make test
 
 # JavaScript/TypeScript
-npm test
+bun test
 
 # Flutter
 flutter test
 
-# E2E tests
-npm run test:e2e
+# Python
+pytest
 
-# With coverage
+# E2E testleri
+bun run test:e2e
+
+# Kapsam ile
 make test-coverage
 ```
 
 ---
 
-## 📚 Documentation
+## 📚 Dokümantasyon
 
-### What to Document
+### Neyi Dokümante Etmeli
 
-- **All public APIs** - Every exported function/class
-- **Complex logic** - Explain the "why", not just the "what"
-- **Architecture decisions** - Add ADRs in `/docs/architecture/`
-- **Setup instructions** - Keep README.md updated
-- **Breaking changes** - Always document in CHANGELOG
+- **Tüm public API'lar** - Her dışa aktarılan fonksiyon/sınıf
+- **Karmaşık mantık** - Sadece "ne"yi değil, "neden"i açıklayın
+- **Mimari kararlar** - `/docs/architecture/` içine ADR'lar ekleyin
+- **Kurulum talimatları** - README.md'yi güncel tutun
+- **Breaking changes** - Her zaman CHANGELOG'da dokümante edin
 
-### Documentation Standards
+### Dokümantasyon Standartları
 
 **Go:**
 ```go
-// CreateUser creates a new user account with the provided credentials.
-// It validates the input, hashes the password, and stores the user in the database.
+// CreateUser, sağlanan kimlik bilgileriyle yeni bir kullanıcı hesabı oluşturur.
+// Girdiyi doğrular, şifreyi hash'ler ve kullanıcıyı veritabanında saklar.
 //
-// Parameters:
-//   - ctx: Context for cancellation and timeouts
-//   - req: User creation request with username, email, and password
+// Parametreler:
+//   - ctx: İptal ve zaman aşımları için context
+//   - req: Kullanıcı adı, e-posta ve şifre ile kullanıcı oluşturma isteği
 //
-// Returns:
-//   - *User: Created user object
-//   - error: Validation or database errors
+// Döndürür:
+//   - *User: Oluşturulan kullanıcı nesnesi
+//   - error: Doğrulama veya veritabanı hataları
 //
-// Example:
+// Örnek:
 //   user, err := service.CreateUser(ctx, &CreateUserRequest{
 //       Username: "john",
 //       Email: "john@example.com",
@@ -439,11 +489,11 @@ func (s *AuthService) CreateUser(ctx context.Context, req *CreateUserRequest) (*
 **TypeScript:**
 ```typescript
 /**
- * Fetches a user by ID from the API
+ * API'den ID'ye göre kullanıcı getirir
  * 
- * @param userId - The unique identifier of the user
- * @returns Promise resolving to the user object
- * @throws {ApiError} When the user is not found or API request fails
+ * @param userId - Kullanıcının benzersiz tanımlayıcısı
+ * @returns Kullanıcı nesnesine çözümlenen Promise
+ * @throws {ApiError} Kullanıcı bulunamazsa veya API isteği başarısız olursa
  * 
  * @example
  * ```ts
@@ -458,78 +508,78 @@ async function fetchUser(userId: string): Promise<User> {
 
 ---
 
-## 🏷️ Issue Labels
+## 🏷️ Issue Etiketleri
 
-We use labels to organize and prioritize issues:
+Issue'ları organize etmek ve önceliklendirmek için etiketleri kullanıyoruz:
 
-**Type:**
-- `type: bug` - Something isn't working
-- `type: feature` - New feature request
-- `type: docs` - Documentation improvement
-- `type: refactor` - Code restructuring
-- `type: performance` - Performance improvement
+**Tip:**
+- `type: bug` - Bir şey çalışmıyor
+- `type: feature` - Yeni özellik isteği
+- `type: docs` - Dokümantasyon iyileştirmesi
+- `type: refactor` - Kod yeniden yapılandırması
+- `type: performance` - Performans iyileştirmesi
 
-**Priority:**
-- `priority: critical` - Urgent, breaks core functionality
-- `priority: high` - Important, should be done soon
-- `priority: medium` - Normal priority
-- `priority: low` - Nice to have
+**Öncelik:**
+- `priority: critical` - Acil, çekirdek işlevselliği bozuyor
+- `priority: high` - Önemli, yakında yapılmalı
+- `priority: medium` - Normal öncelik
+- `priority: low` - Olsa iyi olur
 
-**Status:**
-- `status: needs-triage` - Needs initial review
-- `status: needs-info` - Waiting for more information
-- `status: blocked` - Blocked by another issue
-- `status: in-progress` - Currently being worked on
-- `status: needs-review` - Ready for review
+**Durum:**
+- `status: needs-triage` - İlk review gerekiyor
+- `status: needs-info` - Daha fazla bilgi bekleniyor
+- `status: blocked` - Başka bir issue tarafından engelleniyor
+- `status: in-progress` - Şu anda üzerinde çalışılıyor
+- `status: needs-review` - Review için hazır
 
-**Special:**
-- `good first issue` - Good for newcomers
-- `help wanted` - Community help needed
-- `breaking change` - Introduces breaking changes
-- `security` - Security-related issue
+**Özel:**
+- `good first issue` - Yeni gelenler için iyi
+- `help wanted` - Topluluk yardımı gerekli
+- `breaking change` - Breaking change getiriyor
+- `security` - Güvenlikle ilgili issue
 
 ---
 
-## 🎯 Development Workflow
+## 🎯 Geliştirme İş Akışı
 
-### Branch Strategy
+### Branch Stratejisi
 
 ```
 main (production)
   ↑
 develop (staging)
   ↑
-feature/xxx (feature branches)
+feature/xxx (feature branch'leri)
 ```
 
-**Branch Naming:**
-- `feature/add-oauth` - New features
-- `fix/memory-leak` - Bug fixes
-- `docs/api-guide` - Documentation
-- `refactor/auth-service` - Refactoring
-- `hotfix/security-patch` - Urgent fixes
+**Branch İsimlendirme:**
+- `feature/oauth-ekle` - Yeni özellikler
+- `fix/bellek-sizintisi` - Hata düzeltmeleri
+- `docs/api-rehberi` - Dokümantasyon
+- `refactor/auth-servisi` - Refactoring
+- `hotfix/guvenlik-yamasi` - Acil düzeltmeler
 
-### Release Process
+### Yayın Süreci
 
-1. Create release branch from `develop`
-2. Bump version in all packages
-3. Update CHANGELOG.md
-4. Create PR to `main`
-5. After merge, tag release: `v1.2.3`
-6. Deploy to production
-7. Merge back to `develop`
-
----
-
-## ❓ Questions?
-
-- 📧 Email: [contribute@tayank.com](mailto:contribute@tayank.com)
-- 📚 [Documentation](https://docs.tayank.com)
+1. `develop`'dan release branch'i oluştur
+2. Tüm paketlerde versiyonu artır
+3. CHANGELOG.md'yi güncelle
+4. `main`'e PR oluştur
+5. Merge'den sonra, release'i etiketle: `v1.2.3`
+6. Production'a deploy et
+7. `develop`'a geri merge et
 
 ---
 
-## 🙏 Thank You!
+## ❓ Sorularınız mı var?
 
-Your contributions make Tayank better for everyone. We appreciate your time and effort! ❤️
+- 📧 E-posta: [katkı@tayank.com](mailto:katkı@tayank.com)
+- 📚 [Dokümantasyon](https://docs.tayank.com)
 
-**Happy coding! 🚀**
+---
+
+## 🙏 Teşekkürler!
+
+Katkılarınız Tayank'ı herkes için daha iyi hale getiriyor. Zamanınız ve çabanız için minnettarız! ❤️
+
+**İyi kodlamalar! 🚀**

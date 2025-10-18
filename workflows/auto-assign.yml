@@ -1,0 +1,16 @@
+name: 🤖 Otomatik Atama
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+  issues:
+    types: [opened]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🎯 Otomatik Atama Yap
+        uses: kentaro-m/auto-assign-action@v1.2.4
+        with:
+          config-path: '.github/auto-assign.yml'
