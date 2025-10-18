@@ -21,17 +21,6 @@ ko_fi: "tayank"
 # Liberapay
 liberapay: "tayank"
 
-# Özel Finansman Bağlantıları
-custom:
-  - "https://opencollective.com/tayank"           # Açık Kolektif
-  - "https://github.com/sponsors/Tayank-LTD"      # GitHub Sponsors
-  - "https://patreon.com/tayank"                  # Patreon
-  - "https://ko-fi.com/tayank"                    # Ko-fi
-  - "https://liberapay.com/tayank"                # Liberapay
-
-# Tidelift (Profesyonel destek)
-tidelift: "npm/tayank"
-
 # Community Bridge
 community_bridge: "tayank"
 
