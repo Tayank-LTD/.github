@@ -23,9 +23,6 @@ liberapay: "tayank"
 
 # Özel Finansman Bağlantıları
 custom:
-  - "https://tayank.com/donate"                   # Doğrudan bağış sayfası
-  - "https://tayank.com/sponsor"                  # Kurumsal sponsorluk
-  - "https://tayank.com/enterprise"               # Enterprise desteği
   - "https://opencollective.com/tayank"           # Açık Kolektif
   - "https://github.com/sponsors/Tayank-LTD"      # GitHub Sponsors
   - "https://patreon.com/tayank"                  # Patreon
