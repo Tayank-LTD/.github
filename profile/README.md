@@ -10,7 +10,6 @@
 
 [![Website](https://img.shields.io/badge/Web-tayank.com-mavi?style=for-the-badge)](https://tayank.com)
 [![Dokümantasyon](https://img.shields.io/badge/Doküman-docs.tayank.com-yeşil?style=for-the-badge)](https://docs.tayank.com)
-[![Discord](https://img.shields.io/badge/Discord-Topluluğa_Katıl-5865F2?style=for-the-badge&logo=discord&logoColor=beyaz)](https://discord.gg/tayank)
 [![Lisans](https://img.shields.io/badge/Lisans-MIT-sarı?style=for-the-badge)](https://github.com/Tayank-LTD/tayank/blob/main/LISANS)
 
 [![GitHub Sorunları](https://img.shields.io/github/issues/Tayank-LTD/tayank)](https://github.com/Tayank-LTD/tayank/issues)
